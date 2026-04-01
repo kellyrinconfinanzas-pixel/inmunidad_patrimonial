@@ -25,6 +25,7 @@
 </head>
 <body class="bg-white text-slate-800 font-sans h-[100dvh] overflow-hidden flex flex-col">
 
+    <!-- Banner de Cookies -->
     <div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-slate-900 text-white p-4 z-[60] flex flex-col md:flex-row justify-between items-center shadow-2xl transition-transform duration-500 translate-y-0">
         <div class="text-sm mb-4 md:mb-0 max-w-4xl px-4">
             Utilizamos cookies para garantizar que tengas la mejor experiencia, procesar tu diagnóstico y enviarte tus resultados. Al continuar usando esta plataforma, aceptas nuestra <a href="politica_datos.html" class="text-emerald-400 font-semibold hover:text-emerald-300 underline">Política de Tratamiento de Datos</a>.
@@ -36,6 +37,7 @@
         </div>
     </div>
 
+    <!-- Header Móvil -->
     <div class="md:hidden bg-slate-900 text-white py-3 px-4 shadow-md z-10 shrink-0 flex items-center justify-between overflow-hidden">
         <div>
             <h1 class="font-bold text-lg text-emerald-400 leading-tight mb-1">Inmunidad Patrimonial</h1>
@@ -52,6 +54,7 @@
 
     <div class="flex-1 min-h-0 flex flex-col md:flex-row h-full overflow-hidden">
         
+        <!-- Columna Izquierda (Desktop) -->
         <div class="hidden md:flex md:w-5/12 lg:w-1/2 bg-slate-50 flex-col justify-center items-center relative border-r border-slate-200 overflow-y-auto">
             <div class="absolute w-[400px] h-[400px] bg-emerald-100 rounded-full blur-3xl opacity-50 -z-0"></div>
             
@@ -66,8 +69,10 @@
             </div>
         </div>
 
+        <!-- Columna Derecha: Chatbot -->
         <div class="w-full md:w-7/12 lg:w-1/2 flex flex-col h-full bg-white relative">
             
+            <!-- Cabecera Chat Desktop -->
             <div class="hidden md:block border-b border-slate-100 p-6 bg-white shadow-sm z-10 shrink-0">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
@@ -88,6 +93,7 @@
                 </div>
             </div>
 
+            <!-- BARRA DE PROGRESO -->
             <div id="progress-wrapper" class="w-full bg-white border-b border-slate-100 px-4 md:px-8 py-3 hidden shrink-0 z-10 shadow-sm relative transition-opacity duration-500">
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Progreso del Diagnóstico</span>
@@ -98,22 +104,38 @@
                 </div>
             </div>
 
+            <!-- Área de mensajes -->
             <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-32 md:pb-40 bg-slate-50 md:bg-white relative">
-                </div>
+                <!-- Se inyectan mensajes -->
+            </div>
 
+            <!-- Área de Input y Botón de Retroceso -->
             <div class="absolute bottom-0 left-0 w-full p-4 bg-white border-t border-slate-200 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)] z-20">
-                <form id="chat-form" class="max-w-2xl mx-auto relative flex items-center gap-2">
-                    <input type="text" id="user-input" class="w-full bg-slate-100 border border-slate-300 text-slate-900 rounded-full py-3 px-6 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all disabled:opacity-50" placeholder="Escribe aquí..." autocomplete="off" disabled>
-                    <button type="submit" id="send-btn" class="bg-slate-900 hover:bg-emerald-600 text-white rounded-full p-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0" disabled>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                <div class="max-w-2xl mx-auto flex items-center gap-3">
+                    
+                    <!-- Botón de Atrás -->
+                    <button type="button" id="back-btn" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-600 rounded-full p-3 transition-colors shrink-0 hidden" onclick="goBack()" title="Retroceder a la pregunta anterior">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                     </button>
-                </form>
-                <div id="options-container" class="max-w-2xl mx-auto flex flex-wrap gap-2 mt-3 hidden justify-center">
+
+                    <!-- Formulario de Texto -->
+                    <form id="chat-form" class="flex-1 relative flex items-center gap-2">
+                        <input type="text" id="user-input" class="w-full bg-slate-100 border border-slate-300 text-slate-900 rounded-full py-3 px-6 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all disabled:opacity-50" placeholder="Escribe aquí..." autocomplete="off" disabled>
+                        <button type="submit" id="send-btn" class="bg-slate-900 hover:bg-emerald-600 text-white rounded-full p-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0" disabled>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                        </button>
+                    </form>
+
+                    <!-- Contenedor dinámico de opciones (Botones múltiples) -->
+                    <div id="options-container" class="flex-1 flex flex-wrap gap-2 hidden justify-start">
+                        <!-- Los botones se inyectan acá -->
                     </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="w-full bg-white border-t border-slate-200 py-2 md:py-3 flex flex-col md:flex-row justify-center items-center gap-2 md:gap-8 z-30 px-4 relative shrink-0">
         <p class="text-xs text-slate-400">&copy; 2026 Todos los derechos reservados.</p>
         <a href="politica_datos.html" class="text-xs text-slate-400 hover:text-emerald-600 transition-colors">Política de Tratamiento de Datos</a>
@@ -123,7 +145,7 @@
     </footer>
 
     <script>
-        // --- DICCIONARIOS Y CONFIGURACIÓN ---
+        // --- DICCIONARIOS Y CONFIGURACIÓN AMPLIADOS ---
         const countryMap = {
             'cbia': 'COLOMBIA', 'col': 'COLOMBIA', 'colombia': 'COLOMBIA',
             'arg': 'ARGENTINA', 'argentina': 'ARGENTINA',
@@ -132,7 +154,13 @@
             'ven': 'VENEZUELA', 'venezuela': 'VENEZUELA',
             'usa': 'ESTADOS UNIDOS', 'eeuu': 'ESTADOS UNIDOS', 'estados unidos': 'ESTADOS UNIDOS',
             'esp': 'ESPAÑA', 'españa': 'ESPAÑA', 'chi': 'CHILE', 'chile': 'CHILE',
-            'ecu': 'ECUADOR', 'ecuador': 'ECUADOR', 'rd': 'REPÚBLICA DOMINICANA'
+            'ecu': 'ECUADOR', 'ecuador': 'ECUADOR', 'rd': 'REPÚBLICA DOMINICANA',
+            'hon': 'HONDURAS', 'honduras': 'HONDURAS',
+            'bol': 'BOLIVIA', 'bolivia': 'BOLIVIA', 'par': 'PARAGUAY', 'paraguay': 'PARAGUAY',
+            'uru': 'URUGUAY', 'uruguay': 'URUGUAY', 'cri': 'COSTA RICA', 'costa rica': 'COSTA RICA',
+            'pan': 'PANAMÁ', 'panama': 'PANAMÁ', 'panamá': 'PANAMÁ', 'gua': 'GUATEMALA', 'guatemala': 'GUATEMALA',
+            'slv': 'EL SALVADOR', 'el salvador': 'EL SALVADOR', 'nic': 'NICARAGUA', 'nicaragua': 'NICARAGUA',
+            'pri': 'PUERTO RICO', 'puerto rico': 'PUERTO RICO'
         };
 
         const cityMap = {
@@ -144,13 +172,22 @@
             'cdmx': 'CIUDAD DE MÉXICO', 'ciudad de mexico': 'CIUDAD DE MÉXICO',
             'mty': 'MONTERREY', 'monterrey': 'MONTERREY',
             'gdl': 'GUADALAJARA', 'guadalajara': 'GUADALAJARA',
-            'lim': 'LIMA', 'lima': 'LIMA', 'stgo': 'SANTIAGO', 'santiago': 'SANTIAGO'
+            'lim': 'LIMA', 'lima': 'LIMA', 'stgo': 'SANTIAGO', 'santiago': 'SANTIAGO',
+            'tgu': 'TEGUCIGALPA', 'tegu': 'TEGUCIGALPA', 'tegucigalpa': 'TEGUCIGALPA',
+            'sps': 'SAN PEDRO SULA', 'san pedro sula': 'SAN PEDRO SULA',
+            'car': 'CARACAS', 'caracas': 'CARACAS', 'uio': 'QUITO', 'quito': 'QUITO',
+            'gye': 'GUAYAQUIL', 'guayaquil': 'GUAYAQUIL', 'mvd': 'MONTEVIDEO', 'montevideo': 'MONTEVIDEO',
+            'asu': 'ASUNCIÓN', 'asuncion': 'ASUNCIÓN', 'asunción': 'ASUNCIÓN',
+            'sjo': 'SAN JOSÉ', 'san jose': 'SAN JOSÉ', 'san josé': 'SAN JOSÉ',
+            'pty': 'CIUDAD DE PANAMÁ', 'panama': 'CIUDAD DE PANAMÁ', 'panamá': 'CIUDAD DE PANAMÁ'
         };
 
         const currencyMap = {
             'COLOMBIA': 'COP', 'MÉXICO': 'MXN', 'ARGENTINA': 'ARS', 'PERÚ': 'PEN', 
             'VENEZUELA': 'USD', 'ESTADOS UNIDOS': 'USD', 'ESPAÑA': 'EUR', 'CHILE': 'CLP', 
-            'ECUADOR': 'USD', 'PANAMÁ': 'USD', 'EL SALVADOR': 'USD'
+            'ECUADOR': 'USD', 'PANAMÁ': 'USD', 'EL SALVADOR': 'USD', 'HONDURAS': 'HNL',
+            'BOLIVIA': 'BOB', 'PARAGUAY': 'PYG', 'URUGUAY': 'UYU', 'COSTA RICA': 'CRC',
+            'GUATEMALA': 'GTQ', 'NICARAGUA': 'NIO', 'PUERTO RICO': 'USD', 'REPÚBLICA DOMINICANA': 'DOP'
         };
 
         // --- FLUJO DEL CHAT ---
@@ -211,28 +248,27 @@
                     return { value: val.trim().toUpperCase() };
                 }
             },
-            // NUEVO: Edad
             {
                 id: 'q_edad', type: 'question', inputType: 'number', field: 'edad',
                 text: '¿Qué edad tienes?', delay: 800,
                 validate: (val) => val !== '' && !isNaN(val) && val > 15 && val < 100 ? null : 'Por favor ingresa una edad válida.'
             },
-            // NUEVO: Género
             {
                 id: 'q_genero', type: 'question', inputType: 'options', field: 'genero',
                 text: '¿Con qué género te identificas?', delay: 800,
                 options: [
                     { label: 'Hombre', value: 'Hombre' }, { label: 'Mujer', value: 'Mujer' },
-                    { label: 'Binario', value: 'Binario' }, { label: 'Trans', value: 'Trans' }
+                    { label: 'No-Binario', value: 'No-Binario' }, { label: 'Transexual', value: 'Transexual' }
                 ]
             },
             {
                 id: 'q_educacion', type: 'question', inputType: 'options', field: 'educacion',
                 text: '¿Cuál es tu nivel educativo actual?', delay: 800,
                 options: [
-                    { label: 'Bachiller', value: 'Bachiller' }, { label: 'Técnico/Tecnólogo', value: 'Tecnico' },
-                    { label: 'Profesional', value: 'Profesional' }, { label: 'Especialista', value: 'Especialista' },
-                    { label: 'Maestría', value: 'Maestria' }, { label: 'Doctorado', value: 'Doctorado' }
+                    { label: 'Sin Estudios', value: 'Sin Estudios' }, { label: 'Bachiller', value: 'Bachiller' }, 
+                    { label: 'Técnico/Tecnólogo', value: 'Tecnico' }, { label: 'Profesional', value: 'Profesional' }, 
+                    { label: 'Especialista', value: 'Especialista' }, { label: 'Maestría', value: 'Maestria' }, 
+                    { label: 'Doctorado', value: 'Doctorado' }
                 ]
             },
             {
@@ -240,7 +276,9 @@
                 text: '¿Cuál es tu situación laboral?', delay: 800,
                 options: [
                     { label: 'Empleado', value: 'Empleado' }, { label: 'Independiente/Empresario', value: 'Independiente' },
-                    { label: 'Desempleado', value: 'Desempleado' }, { label: 'Jubilado', value: 'Jubilado' }
+                    { label: 'Trabajo Informal', value: 'Informal' }, { label: 'Ama de Casa', value: 'Ama de Casa' },
+                    { label: 'Cuidador Primario', value: 'Cuidador' }, { label: 'Desempleado', value: 'Desempleado' }, 
+                    { label: 'Jubilado', value: 'Jubilado' }
                 ]
             },
             {
@@ -309,8 +347,8 @@
         let currentStepIndex = 0;
         const userData = {}; 
         let confirmingState = null;
-        let answeredQuestionsCount = 0; 
         const totalQuestions = chatFlow.filter(s => s.type === 'question').length; 
+        let processCounter = 0; // Para proteger flujos asíncronos si el usuario presiona Atrás
 
         const chatContainer = document.getElementById('chat-container');
         const chatForm = document.getElementById('chat-form');
@@ -336,7 +374,17 @@
             } else { banner.style.display = 'none'; }
         }
 
-        // --- ACTUALIZAR BARRA DE PROGRESO ---
+        function getAnsweredCount() {
+            let count = 0;
+            chatFlow.forEach(step => {
+                if (step.type === 'question' && userData[step.field] !== undefined) {
+                    count++;
+                }
+            });
+            return count;
+        }
+
+        // --- ACTUALIZAR UI ---
         function updateProgress() {
             const progressWrapper = document.getElementById('progress-wrapper');
             const progressBar = document.getElementById('progress-bar');
@@ -344,7 +392,7 @@
             
             progressWrapper.classList.remove('hidden');
             
-            let displayCount = answeredQuestionsCount + 1;
+            let displayCount = getAnsweredCount() + 1;
             if (displayCount > totalQuestions) displayCount = totalQuestions;
             
             const percentage = Math.round((displayCount / totalQuestions) * 100);
@@ -353,24 +401,92 @@
             progressBar.style.width = `${percentage}%`;
         }
 
+        function updateBackButtonVisibility() {
+            const backBtn = document.getElementById('back-btn');
+            let firstQIndex = 0;
+            while(firstQIndex < chatFlow.length && chatFlow[firstQIndex].type !== 'question') {
+                firstQIndex++;
+            }
+            if (currentStepIndex > firstQIndex) {
+                backBtn.classList.remove('hidden');
+            } else {
+                backBtn.classList.add('hidden');
+            }
+        }
+
+        // --- FUNCIONALIDAD: RETROCEDER ---
+        function removeStepsFromDOM(fromIndex) {
+            const elements = chatContainer.querySelectorAll('[data-step]');
+            elements.forEach(el => {
+                if (parseInt(el.getAttribute('data-step')) >= fromIndex) {
+                    el.remove();
+                }
+            });
+            // Eliminar indicadores de escritura huerfanos si los hay
+            const typing = document.querySelector('.typing-indicator');
+            if (typing) {
+                const parent = typing.closest('[data-step]');
+                if(parent) parent.remove();
+            }
+        }
+
+        function goBack() {
+            if (currentStepIndex === 0) return;
+
+            // Si está confirmando una ciudad/país, simplemente cancelar la confirmación
+            if (confirmingState) {
+                confirmingState = null;
+                removeStepsFromDOM(currentStepIndex); 
+                enableInput('text');
+                return;
+            }
+
+            // Encontrar el índice de la PREGUNTA anterior
+            let prevQuestionIndex = currentStepIndex - 1;
+            while (prevQuestionIndex >= 0 && chatFlow[prevQuestionIndex].type !== 'question') {
+                prevQuestionIndex--;
+            }
+
+            if (prevQuestionIndex < 0) return; 
+
+            // 1. Borrar elementos del DOM a partir de ese índice
+            removeStepsFromDOM(prevQuestionIndex);
+
+            // 2. Borrar de la memoria la respuesta anterior para poder re-preguntarla
+            const stepToClear = chatFlow[prevQuestionIndex];
+            if (stepToClear && stepToClear.field && userData[stepToClear.field] !== undefined) {
+                delete userData[stepToClear.field];
+            }
+
+            // 3. Actualizar el estado interno
+            currentStepIndex = prevQuestionIndex;
+            
+            // 4. Re-lanzar el ciclo
+            processNextStep();
+        }
+
         // --- MOTOR DEL CHAT ---
         async function processNextStep() {
             if (currentStepIndex >= chatFlow.length) return finishChat();
 
+            const currentProcess = ++processCounter; // Control de asincronía
             const step = chatFlow[currentStepIndex];
             
-            // Reemplazo de variables dinámicas
             let textToDisplay = step.text;
             if (userData.nombres) textToDisplay = textToDisplay.replaceAll('{nombres}', userData.nombres);
             if (userData.moneda) textToDisplay = textToDisplay.replaceAll('{moneda}', userData.moneda);
             else textToDisplay = textToDisplay.replaceAll('{moneda}', 'tu moneda local'); 
 
-            const typingId = showTypingIndicator();
+            const typingId = showTypingIndicator(currentStepIndex);
             scrollToBottom();
+            
             await new Promise(resolve => setTimeout(resolve, step.delay));
-            removeTypingIndicator(typingId);
+            
+            // Si el usuario presionó Atrás durante la pausa, se aborta este proceso
+            if (currentProcess !== processCounter) return;
 
-            addBotMessage(textToDisplay);
+            removeTypingIndicator(typingId);
+            addBotMessage(textToDisplay, currentStepIndex);
             scrollToBottom();
 
             if (step.type === 'bot') {
@@ -383,9 +499,11 @@
         }
 
         function enableInput(type, options = null) {
+            updateBackButtonVisibility();
+
             if (type === 'options' || options) {
-                userInput.classList.add('hidden');
-                sendBtn.classList.add('hidden');
+                chatForm.classList.add('hidden');
+                chatForm.classList.remove('flex');
                 optionsContainer.classList.remove('hidden');
                 optionsContainer.classList.add('flex');
                 
@@ -404,8 +522,8 @@
             } else {
                 optionsContainer.classList.add('hidden');
                 optionsContainer.classList.remove('flex');
-                userInput.classList.remove('hidden');
-                sendBtn.classList.remove('hidden');
+                chatForm.classList.remove('hidden');
+                chatForm.classList.add('flex');
                 
                 userInput.type = type === 'number' ? 'number' : (type === 'email' ? 'email' : 'text');
                 userInput.disabled = false;
@@ -420,8 +538,11 @@
             sendBtn.disabled = true;
             optionsContainer.classList.add('hidden');
             optionsContainer.classList.remove('flex');
-            userInput.classList.remove('hidden');
-            sendBtn.classList.remove('hidden');
+            chatForm.classList.remove('hidden');
+            chatForm.classList.add('flex');
+            
+            // Ocultamos el botón de retroceso mientras el bot piensa para evitar doble clicks locos
+            document.getElementById('back-btn').classList.add('hidden');
         }
 
         chatForm.addEventListener('submit', (e) => {
@@ -438,15 +559,14 @@
                     if (confirmingState.field === 'pais') {
                         userData.moneda = currencyMap[confirmingState.proposedValue] || 'USD';
                     }
-                    addUserMessage(displayText);
-                    answeredQuestionsCount++; 
+                    addUserMessage(displayText, currentStepIndex);
                     confirmingState = null;
                     disableInput();
                     currentStepIndex++;
                     processNextStep();
                 } else {
-                    addUserMessage(displayText);
-                    addBotMessage("Entendido. Por favor, escribe el nombre completo y sin abreviaciones:");
+                    addUserMessage(displayText, currentStepIndex);
+                    addBotMessage("Entendido. Por favor, escribe el nombre completo y sin abreviaciones:", currentStepIndex);
                     confirmingState = null;
                     enableInput('text');
                 }
@@ -458,8 +578,8 @@
             if (currentStep.validate) {
                 const error = currentStep.validate(actualValue);
                 if (error) {
-                    addUserMessage(displayText);
-                    addBotMessage(error);
+                    addUserMessage(displayText, currentStepIndex);
+                    addBotMessage(error, currentStepIndex);
                     userInput.value = ''; 
                     scrollToBottom();
                     return;
@@ -469,9 +589,9 @@
             if (currentStep.process) {
                 const result = currentStep.process(actualValue);
                 if (result.requiresConfirmation) {
-                    addUserMessage(displayText);
+                    addUserMessage(displayText, currentStepIndex);
                     confirmingState = { field: currentStep.field, proposedValue: result.proposedValue };
-                    addBotMessage(`¿Te refieres a ${result.proposedValue}?`);
+                    addBotMessage(`¿Te refieres a ${result.proposedValue}?`, currentStepIndex);
                     enableInput('options', [{label: 'Sí', value: 'si'}, {label: 'No, escribir de nuevo', value: 'no'}]);
                     scrollToBottom();
                     return;
@@ -490,27 +610,26 @@
                 userData.nombre = `${userData.nombres} ${userData.apellidos}`; 
             }
 
-            addUserMessage(displayText);
+            addUserMessage(displayText, currentStepIndex);
             disableInput();
 
             if (currentStep.field === 'acepta_politica' && actualValue === 'no') {
                 setTimeout(() => {
-                    addBotMessage("Entiendo perfectamente. Tus datos registrados hasta este momento han sido borrados de la memoria y no serán almacenados. ¡Hasta pronto!");
+                    addBotMessage("Entiendo perfectamente. Tus datos registrados hasta este momento han sido borrados de la memoria y no serán almacenados. ¡Hasta pronto!", currentStepIndex);
                     for (let key in userData) delete userData[key];
                     scrollToBottom();
                 }, 800);
                 return; 
             }
 
-            answeredQuestionsCount++;
             currentStepIndex++;
             processNextStep();
         }
 
         // --- RENDERIZADO VISUAL ---
-        function addBotMessage(text) {
+        function addBotMessage(text, stepIdx) {
             const html = `
-                <div class="flex items-start gap-3 md:gap-4 w-full md:w-4/5 fade-in-up">
+                <div data-step="${stepIdx}" class="flex items-start gap-3 md:gap-4 w-full md:w-4/5 fade-in-up">
                     <div class="flex-shrink-0">
                         <img src="kelly.png" alt="Kelly" class="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-sm" onerror="this.src='https://ui-avatars.com/api/?name=K&background=0D8BCA&color=fff'">
                     </div>
@@ -521,9 +640,9 @@
             chatContainer.insertAdjacentHTML('beforeend', html);
         }
 
-        function addUserMessage(text) {
+        function addUserMessage(text, stepIdx) {
             const html = `
-                <div class="flex items-start gap-3 md:gap-4 w-full md:w-4/5 ml-auto flex-row-reverse fade-in-up">
+                <div data-step="${stepIdx}" class="flex items-start gap-3 md:gap-4 w-full md:w-4/5 ml-auto flex-row-reverse fade-in-up">
                     <div class="flex-shrink-0">
                         <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center font-bold text-slate-500">
                             ${userData.nombres ? userData.nombres.charAt(0).toUpperCase() : 'Tú'}
@@ -536,10 +655,10 @@
             chatContainer.insertAdjacentHTML('beforeend', html);
         }
 
-        function showTypingIndicator() {
+        function showTypingIndicator(stepIdx) {
             const id = 'typing-' + Date.now();
             const html = `
-                <div id="${id}" class="flex items-start gap-3 md:gap-4 w-4/5 fade-in-up">
+                <div id="${id}" data-step="${stepIdx}" class="flex items-start gap-3 md:gap-4 w-4/5 fade-in-up">
                     <div class="flex-shrink-0">
                         <img src="kelly.png" alt="Kelly" class="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-sm" onerror="this.src='https://ui-avatars.com/api/?name=K&background=0D8BCA&color=fff'">
                     </div>
@@ -562,9 +681,9 @@
 
         // --- FINALIZAR ---
         async function finishChat() {
-            addBotMessage("¡Listo! Estoy estructurando tu información y calculando tu nivel de Inmunidad Patrimonial... Dame un segundo.");
+            addBotMessage("¡Listo! Estoy estructurando tu información y calculando tu nivel de Inmunidad Patrimonial... Dame un segundo.", currentStepIndex);
             scrollToBottom();
-            showTypingIndicator();
+            showTypingIndicator(currentStepIndex);
 
             setTimeout(() => {
                 console.log("Datos capturados:", userData);
