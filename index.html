@@ -25,7 +25,6 @@
 </head>
 <body class="bg-white text-slate-800 font-sans h-[100dvh] overflow-hidden flex flex-col">
 
-    <!-- Banner de Cookies -->
     <div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-slate-900 text-white p-4 z-[60] flex flex-col md:flex-row justify-between items-center shadow-2xl transition-transform duration-500 translate-y-0">
         <div class="text-sm mb-4 md:mb-0 max-w-4xl px-4">
             Utilizamos cookies para garantizar que tengas la mejor experiencia, procesar tu diagnóstico y enviarte tus resultados. Al continuar usando esta plataforma, aceptas nuestra <a href="politica_datos.html" class="text-emerald-400 font-semibold hover:text-emerald-300 underline">Política de Tratamiento de Datos</a>.
@@ -37,7 +36,6 @@
         </div>
     </div>
 
-    <!-- Header Móvil -->
     <div class="md:hidden bg-slate-900 text-white py-3 px-4 shadow-md z-10 shrink-0 flex items-center justify-between overflow-hidden">
         <div>
             <h1 class="font-bold text-lg text-emerald-400 leading-tight mb-1">Inmunidad Patrimonial</h1>
@@ -54,7 +52,6 @@
 
     <div class="flex-1 min-h-0 flex flex-col md:flex-row h-full overflow-hidden">
         
-        <!-- Columna Izquierda (Desktop) -->
         <div class="hidden md:flex md:w-5/12 lg:w-1/2 bg-slate-50 flex-col justify-center items-center relative border-r border-slate-200 overflow-y-auto">
             <div class="absolute w-[400px] h-[400px] bg-emerald-100 rounded-full blur-3xl opacity-50 -z-0"></div>
             
@@ -69,10 +66,8 @@
             </div>
         </div>
 
-        <!-- Columna Derecha: Chatbot -->
         <div class="w-full md:w-7/12 lg:w-1/2 flex flex-col h-full bg-white relative">
             
-            <!-- Cabecera Chat Desktop -->
             <div class="hidden md:block border-b border-slate-100 p-6 bg-white shadow-sm z-10 shrink-0">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
@@ -93,7 +88,6 @@
                 </div>
             </div>
 
-            <!-- NUEVA BARRA DE PROGRESO -->
             <div id="progress-wrapper" class="w-full bg-white border-b border-slate-100 px-4 md:px-8 py-3 hidden shrink-0 z-10 shadow-sm relative transition-opacity duration-500">
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Progreso del Diagnóstico</span>
@@ -104,12 +98,9 @@
                 </div>
             </div>
 
-            <!-- Área de mensajes -->
             <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-32 md:pb-40 bg-slate-50 md:bg-white relative">
-                <!-- Se inyectan mensajes -->
-            </div>
+                </div>
 
-            <!-- Área de Input -->
             <div class="absolute bottom-0 left-0 w-full p-4 bg-white border-t border-slate-200 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)] z-20">
                 <form id="chat-form" class="max-w-2xl mx-auto relative flex items-center gap-2">
                     <input type="text" id="user-input" class="w-full bg-slate-100 border border-slate-300 text-slate-900 rounded-full py-3 px-6 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all disabled:opacity-50" placeholder="Escribe aquí..." autocomplete="off" disabled>
@@ -117,15 +108,12 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
                     </button>
                 </form>
-                <!-- Contenedor dinámico de opciones -->
                 <div id="options-container" class="max-w-2xl mx-auto flex flex-wrap gap-2 mt-3 hidden justify-center">
-                    <!-- Los botones se inyectan acá -->
-                </div>
+                    </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="w-full bg-white border-t border-slate-200 py-2 md:py-3 flex flex-col md:flex-row justify-center items-center gap-2 md:gap-8 z-30 px-4 relative shrink-0">
         <p class="text-xs text-slate-400">&copy; 2026 Todos los derechos reservados.</p>
         <a href="politica_datos.html" class="text-xs text-slate-400 hover:text-emerald-600 transition-colors">Política de Tratamiento de Datos</a>
@@ -223,6 +211,21 @@
                     return { value: val.trim().toUpperCase() };
                 }
             },
+            // NUEVO: Edad
+            {
+                id: 'q_edad', type: 'question', inputType: 'number', field: 'edad',
+                text: '¿Qué edad tienes?', delay: 800,
+                validate: (val) => val !== '' && !isNaN(val) && val > 15 && val < 100 ? null : 'Por favor ingresa una edad válida.'
+            },
+            // NUEVO: Género
+            {
+                id: 'q_genero', type: 'question', inputType: 'options', field: 'genero',
+                text: '¿Con qué género te identificas?', delay: 800,
+                options: [
+                    { label: 'Hombre', value: 'Hombre' }, { label: 'Mujer', value: 'Mujer' },
+                    { label: 'Binario', value: 'Binario' }, { label: 'Trans', value: 'Trans' }
+                ]
+            },
             {
                 id: 'q_educacion', type: 'question', inputType: 'options', field: 'educacion',
                 text: '¿Cuál es tu nivel educativo actual?', delay: 800,
@@ -306,7 +309,7 @@
         let currentStepIndex = 0;
         const userData = {}; 
         let confirmingState = null;
-        let answeredQuestionsCount = 0; // Variables para progreso
+        let answeredQuestionsCount = 0; 
         const totalQuestions = chatFlow.filter(s => s.type === 'question').length; 
 
         const chatContainer = document.getElementById('chat-container');
@@ -339,10 +342,8 @@
             const progressBar = document.getElementById('progress-bar');
             const progressText = document.getElementById('progress-text');
             
-            // Mostrar la barra si estaba oculta
             progressWrapper.classList.remove('hidden');
             
-            // Calcular visualización: Si estamos en una pregunta, mostramos "Pregunta Actual de Total"
             let displayCount = answeredQuestionsCount + 1;
             if (displayCount > totalQuestions) displayCount = totalQuestions;
             
@@ -376,7 +377,7 @@
                 currentStepIndex++;
                 processNextStep();
             } else {
-                updateProgress(); // Actualizamos la barra al presentar una pregunta
+                updateProgress(); 
                 enableInput(step.inputType, step.options);
             }
         }
@@ -438,7 +439,7 @@
                         userData.moneda = currencyMap[confirmingState.proposedValue] || 'USD';
                     }
                     addUserMessage(displayText);
-                    answeredQuestionsCount++; // Respuesta confirmada y guardada
+                    answeredQuestionsCount++; 
                     confirmingState = null;
                     disableInput();
                     currentStepIndex++;
@@ -501,9 +502,7 @@
                 return; 
             }
 
-            // Guardado exitoso, incrementamos el contador de progreso
             answeredQuestionsCount++;
-            
             currentStepIndex++;
             processNextStep();
         }
