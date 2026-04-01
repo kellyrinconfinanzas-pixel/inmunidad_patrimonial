@@ -4,56 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tu Inmunidad Patrimonial | Kelly-Finanzas</title>
-    <!-- Tailwind CSS para el diseño rápido y responsivo -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Personalización de la barra de desplazamiento del chat */
-        #chat-container::-webkit-scrollbar {
-            width: 6px;
-        }
-        #chat-container::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-            border-radius: 8px;
-        }
-        #chat-container::-webkit-scrollbar-thumb {
-            background: #cbd5e1; 
-            border-radius: 8px;
-        }
-        #chat-container::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; 
-        }
+        #chat-container::-webkit-scrollbar { width: 6px; }
+        #chat-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 8px; }
+        #chat-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+        #chat-container::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
-        /* Animación suave de aparición para los mensajes */
-        .fade-in-up {
-            animation: fadeInUp 0.4s ease-out forwards;
-            opacity: 0;
-            transform: translateY(10px);
-        }
-        
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .fade-in-up { animation: fadeInUp 0.4s ease-out forwards; opacity: 0; transform: translateY(10px); }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
         .typing-indicator span {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background-color: #10b981;
-            border-radius: 50%;
-            margin: 0 2px;
-            animation: bounce 1.4s infinite ease-in-out both;
+            display: inline-block; width: 6px; height: 6px; background-color: #10b981;
+            border-radius: 50%; margin: 0 2px; animation: bounce 1.4s infinite ease-in-out both;
         }
-
         .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
         .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
     </style>
 </head>
 <body class="bg-white text-slate-800 font-sans h-[100dvh] overflow-hidden flex flex-col">
@@ -70,7 +37,7 @@
         </div>
     </div>
 
-    <!-- Header Móvil (solo visible en pantallas pequeñas) -->
+    <!-- Header Móvil -->
     <div class="md:hidden bg-slate-900 text-white py-3 px-4 shadow-md z-10 shrink-0 flex items-center justify-between overflow-hidden">
         <div>
             <h1 class="font-bold text-lg text-emerald-400 leading-tight mb-1">Inmunidad Patrimonial</h1>
@@ -87,15 +54,12 @@
 
     <div class="flex-1 min-h-0 flex flex-col md:flex-row h-full overflow-hidden">
         
-        <!-- Columna Izquierda: Imagen y Branding (Oculta en móviles, visible en Desktop) -->
+        <!-- Columna Izquierda (Desktop) -->
         <div class="hidden md:flex md:w-5/12 lg:w-1/2 bg-slate-50 flex-col justify-center items-center relative border-r border-slate-200 overflow-y-auto">
-            <!-- Círculo decorativo de fondo -->
             <div class="absolute w-[400px] h-[400px] bg-emerald-100 rounded-full blur-3xl opacity-50 -z-0"></div>
             
             <div class="z-10 text-center flex flex-col items-center p-8 min-h-min">
-                <!-- Imagen actualizada: Sin círculo, libre y con sombra suave -->
                 <img src="kelly.png" alt="Kelly-Finanzas" class="w-auto h-auto max-w-md max-h-[55vh] object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.15)] mb-6 transition-transform duration-500 hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Kelly+Finanzas&background=0D8BCA&color=fff&size=256'">
-                
                 <h1 class="text-3xl lg:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
                     Tu <span class="text-emerald-600">Inmunidad</span> Patrimonial
                 </h1>
@@ -105,10 +69,10 @@
             </div>
         </div>
 
-        <!-- Columna Derecha: Interfaz del Chatbot -->
+        <!-- Columna Derecha: Chatbot -->
         <div class="w-full md:w-7/12 lg:w-1/2 flex flex-col h-full bg-white relative">
             
-            <!-- Cabecera del chat en Desktop -->
+            <!-- Cabecera Chat Desktop -->
             <div class="hidden md:block border-b border-slate-100 p-6 bg-white shadow-sm z-10">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
@@ -118,13 +82,10 @@
                             <p class="text-sm text-slate-500">Asesora y Estratega en Blindaje Patrimonial</p>
                         </div>
                     </div>
-                    <!-- Contenedor de Redes Sociales -->
                     <div class="flex items-center gap-4">
-                        <!-- LinkedIn -->
                         <a href="https://www.linkedin.com/in/kelly-johanna-rinc%C3%B3n-pastrana-asesora-financiera-inversiones/" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-[#0077b5] transition-colors" title="Ver perfil en LinkedIn">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         </a>
-                        <!-- Instagram -->
                         <a href="https://www.instagram.com/kellyrincon_asesorafinanciera" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-[#E1306C] transition-colors" title="Ver perfil en Instagram">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                         </a>
@@ -133,47 +94,30 @@
             </div>
 
             <!-- Área de mensajes -->
-            <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-24 md:pb-32 bg-slate-50 md:bg-white">
-                <!-- Los mensajes se inyectarán aquí vía JS -->
+            <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-32 md:pb-40 bg-slate-50 md:bg-white relative">
+                <!-- Se inyectan mensajes -->
             </div>
 
-            <!-- Área de Input del usuario (fijada al fondo) -->
+            <!-- Área de Input -->
             <div class="absolute bottom-0 left-0 w-full p-4 bg-white border-t border-slate-200 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)]">
                 <form id="chat-form" class="max-w-2xl mx-auto relative flex items-center gap-2">
-                    <input 
-                        type="text" 
-                        id="user-input" 
-                        class="w-full bg-slate-100 border border-slate-300 text-slate-900 rounded-full py-4 px-6 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                        placeholder="Escribe tu respuesta aquí..." 
-                        autocomplete="off"
-                        disabled
-                    >
-                    <button 
-                        type="submit" 
-                        id="send-btn"
-                        class="bg-slate-900 hover:bg-emerald-600 text-white rounded-full p-4 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
-                        disabled
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                        </svg>
+                    <input type="text" id="user-input" class="w-full bg-slate-100 border border-slate-300 text-slate-900 rounded-full py-3 px-6 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all disabled:opacity-50" placeholder="Escribe aquí..." autocomplete="off" disabled>
+                    <button type="submit" id="send-btn" class="bg-slate-900 hover:bg-emerald-600 text-white rounded-full p-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
                     </button>
                 </form>
-                <!-- Contenedor para botones de opciones (Sí/No) -->
-                <div id="options-container" class="max-w-2xl mx-auto flex gap-3 mt-3 hidden justify-center">
-                    <button class="option-btn bg-emerald-100 text-emerald-800 hover:bg-emerald-200 border border-emerald-300 rounded-full py-2 px-6 font-semibold transition-colors" data-value="1">Sí</button>
-                    <button class="option-btn bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 rounded-full py-2 px-6 font-semibold transition-colors" data-value="0">No</button>
+                <!-- Contenedor dinámico de opciones -->
+                <div id="options-container" class="max-w-2xl mx-auto flex flex-wrap gap-2 mt-3 hidden justify-center">
+                    <!-- Los botones se inyectan acá -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer Global Fijo -->
+    <!-- Footer -->
     <footer class="w-full bg-white border-t border-slate-200 py-2 md:py-3 flex flex-col md:flex-row justify-center items-center gap-2 md:gap-8 z-20 px-4 relative shrink-0">
         <p class="text-xs text-slate-400">&copy; 2026 Todos los derechos reservados.</p>
         <a href="politica_datos.html" class="text-xs text-slate-400 hover:text-emerald-600 transition-colors">Política de Tratamiento de Datos</a>
-        
-        <!-- Contenedor para los enlaces ocultos (se apilan a la derecha o en nueva línea en móvil) -->
         <div class="absolute right-4 md:static flex gap-3">
             <a href="portal.html" class="text-[10px] text-slate-100 hover:text-emerald-500 transition-colors opacity-50 hover:opacity-100 cursor-default hover:cursor-pointer">portal</a>
             <a href="login.html" class="text-[10px] text-slate-100 hover:text-emerald-500 transition-colors opacity-50 hover:opacity-100 cursor-default hover:cursor-pointer">acceso kelly</a>
@@ -181,231 +125,242 @@
     </footer>
 
     <script>
-        // --- CONFIGURACIÓN DEL FLUJO DEL CHAT ---
+        // --- DICCIONARIOS Y CONFIGURACIÓN ---
+        const countryMap = {
+            'cbia': 'COLOMBIA', 'col': 'COLOMBIA', 'colombia': 'COLOMBIA',
+            'arg': 'ARGENTINA', 'argentina': 'ARGENTINA',
+            'mex': 'MÉXICO', 'mx': 'MÉXICO', 'mexico': 'MÉXICO', 'méxico': 'MÉXICO',
+            'pe': 'PERÚ', 'peru': 'PERÚ', 'perú': 'PERÚ',
+            'ven': 'VENEZUELA', 'venezuela': 'VENEZUELA',
+            'usa': 'ESTADOS UNIDOS', 'eeuu': 'ESTADOS UNIDOS', 'estados unidos': 'ESTADOS UNIDOS',
+            'esp': 'ESPAÑA', 'españa': 'ESPAÑA', 'chi': 'CHILE', 'chile': 'CHILE',
+            'ecu': 'ECUADOR', 'ecuador': 'ECUADOR', 'rd': 'REPÚBLICA DOMINICANA'
+        };
+
+        const cityMap = {
+            'bq': 'BARRANQUILLA', 'baq': 'BARRANQUILLA', 'quilla': 'BARRANQUILLA', 'barranquilla': 'BARRANQUILLA',
+            'bsas': 'BUENOS AIRES', 'buenos aires': 'BUENOS AIRES',
+            'bog': 'BOGOTÁ', 'bogota': 'BOGOTÁ', 'bogotá': 'BOGOTÁ',
+            'med': 'MEDELLÍN', 'medellin': 'MEDELLÍN', 'medellín': 'MEDELLÍN',
+            'cal': 'CALI', 'cali': 'CALI',
+            'cdmx': 'CIUDAD DE MÉXICO', 'ciudad de mexico': 'CIUDAD DE MÉXICO',
+            'mty': 'MONTERREY', 'monterrey': 'MONTERREY',
+            'gdl': 'GUADALAJARA', 'guadalajara': 'GUADALAJARA',
+            'lim': 'LIMA', 'lima': 'LIMA', 'stgo': 'SANTIAGO', 'santiago': 'SANTIAGO'
+        };
+
+        const currencyMap = {
+            'COLOMBIA': 'COP', 'MÉXICO': 'MXN', 'ARGENTINA': 'ARS', 'PERÚ': 'PEN', 
+            'VENEZUELA': 'USD', 'ESTADOS UNIDOS': 'USD', 'ESPAÑA': 'EUR', 'CHILE': 'CLP', 
+            'ECUADOR': 'USD', 'PANAMÁ': 'USD', 'EL SALVADOR': 'USD'
+        };
+
+        // --- FLUJO DEL CHAT ---
         const chatFlow = [
-            {
-                id: 'intro_1',
-                type: 'bot',
-                text: '¡Hola! Si estás aquí, probablemente ganas bien. Tal vez inviertes. Seguramente te consideras responsable financieramente.',
-                delay: 1000
+            { id: 'intro_1', type: 'bot', text: '¡Hola! Si estás aquí, probablemente ganas bien. Tal vez inviertes. Seguramente te consideras responsable financieramente.', delay: 1500 },
+            { id: 'intro_2', type: 'bot', text: 'Pero hay una diferencia incómoda entre tener ingresos altos y tener inmunidad patrimonial. La mayoría confunde facturación con estructura.', delay: 2000 },
+            { 
+                id: 'q_nombres', type: 'question', inputType: 'text', field: 'nombres',
+                text: 'Para empezar con este diagnóstico privado, ¿cuáles son tus nombres?', delay: 1000,
+                validate: (val) => val.trim().length >= 2 ? null : 'Por favor, escribe un nombre válido (mínimo 2 letras).'
+            },
+            { 
+                id: 'q_apellidos', type: 'question', inputType: 'text', field: 'apellidos',
+                text: 'Perfecto {nombres}. ¿Y cuáles son tus apellidos?', delay: 800,
+                validate: (val) => val.trim().length >= 2 ? null : 'Por favor, escribe un apellido válido.'
+            },
+            { 
+                id: 'q_email', type: 'question', inputType: 'email', field: 'email',
+                text: 'Mucho gusto. ¿A qué correo electrónico enviaré tu reporte detallado al finalizar?', delay: 800
+            },
+            { id: 'bot_demograficos', type: 'bot', text: 'Para contextualizar mejor tus resultados financieros, necesito unos breves datos sobre ti.', delay: 1500 },
+            { 
+                id: 'q_pais', type: 'question', inputType: 'text', field: 'pais',
+                text: '¿De qué país nos visitas?', delay: 800,
+                process: (val) => {
+                    let cleanVal = val.trim().toLowerCase();
+                    if (countryMap[cleanVal]) {
+                        if (cleanVal !== countryMap[cleanVal].toLowerCase()) {
+                            return { requiresConfirmation: true, proposedValue: countryMap[cleanVal] };
+                        }
+                        return { value: countryMap[cleanVal] };
+                    }
+                    return { value: val.trim().toUpperCase() };
+                }
+            },
+            { 
+                id: 'q_ciudad', type: 'question', inputType: 'text', field: 'ciudad',
+                text: '¿Y en qué ciudad resides?', delay: 800,
+                process: (val) => {
+                    let cleanVal = val.trim().toLowerCase();
+                    if (cityMap[cleanVal]) {
+                        if (cleanVal !== cityMap[cleanVal].toLowerCase()) {
+                            return { requiresConfirmation: true, proposedValue: cityMap[cleanVal] };
+                        }
+                        return { value: cityMap[cleanVal] };
+                    }
+                    return { value: val.trim().toUpperCase() };
+                }
             },
             {
-                id: 'intro_2',
-                type: 'bot',
-                text: 'Pero hay una diferencia incómoda entre tener ingresos altos y tener inmunidad patrimonial. La mayoría confunde facturación con estructura.',
-                delay: 2000
+                id: 'q_educacion', type: 'question', inputType: 'options', field: 'educacion',
+                text: '¿Cuál es tu nivel educativo actual?', delay: 800,
+                options: [
+                    { label: 'Bachiller', value: 'Bachiller' }, { label: 'Técnico/Tecnólogo', value: 'Tecnico' },
+                    { label: 'Profesional', value: 'Profesional' }, { label: 'Especialista', value: 'Especialista' },
+                    { label: 'Maestría', value: 'Maestria' }, { label: 'Doctorado', value: 'Doctorado' }
+                ]
             },
             {
-                id: 'q_nombre',
-                type: 'question',
-                text: 'Para empezar con este diagnóstico privado, ¿cuál es tu nombre o cómo te gustaría que te llame?',
-                delay: 1500,
-                inputType: 'text',
-                field: 'nombre'
+                id: 'q_ocupacion', type: 'question', inputType: 'options', field: 'ocupacion',
+                text: '¿Cuál es tu situación laboral?', delay: 800,
+                options: [
+                    { label: 'Empleado', value: 'Empleado' }, { label: 'Independiente/Empresario', value: 'Independiente' },
+                    { label: 'Desempleado', value: 'Desempleado' }, { label: 'Jubilado', value: 'Jubilado' }
+                ]
             },
             {
-                id: 'q_email',
-                type: 'question',
-                text: 'Mucho gusto, {nombre}. ¿A qué correo electrónico enviaré tu reporte detallado al finalizar?',
-                delay: 800,
-                inputType: 'email',
-                field: 'email'
+                id: 'q_estado_civil', type: 'question', inputType: 'options', field: 'estado_civil',
+                text: '¿Cuál es tu estado civil?', delay: 800,
+                options: [
+                    { label: 'Soltero/a', value: 'Soltero' }, { label: 'Casado/a / Unión Libre', value: 'Casado' },
+                    { label: 'Separado/a', value: 'Separado' }, { label: 'Viudo/a', value: 'Viudo' }
+                ]
             },
             {
-                id: 'fase1_intro',
-                type: 'bot',
-                text: 'Excelente. Vamos a empezar con la FASE 1: Tu Oxígeno Financiero (<30 días). No te preocupes, los datos están seguros y no serás juzgado/a.',
-                delay: 1000
+                id: 'q_hijos', type: 'question', inputType: 'number', field: 'hijos',
+                text: '¿Cuántos hijos tienes? (Escribe 0 si no tienes)', delay: 800,
+                validate: (val) => val !== '' && !isNaN(val) && val >= 0 ? null : 'Por favor ingresa un número válido (ej. 0, 1, 2).'
             },
             {
-                id: 'q_ahorros',
-                type: 'question',
-                text: '¿Cuánto dinero disponible (en tu moneda local o USD) tienes actualmente en Cuentas de Ahorro o Corriente?',
-                delay: 1500,
-                inputType: 'number',
-                field: 'cuentas_ahorro'
+                id: 'q_mascotas', type: 'question', inputType: 'options', field: 'mascotas',
+                text: '¿Tienes mascotas?', delay: 800,
+                options: [ { label: 'Sí', value: 'Si' }, { label: 'No', value: 'No' } ]
+            },
+            { id: 'fase1_intro', type: 'bot', text: '¡Gracias por la información! Vamos a empezar con la FASE 1: Tu Oxígeno Financiero. Recuerda, los datos están seguros.', delay: 1500 },
+            {
+                id: 'q_ahorros', type: 'question', inputType: 'number', field: 'cuentas_ahorro',
+                text: '¿Cuánto dinero disponible tienes actualmente en Cuentas de Ahorro o Corriente? (Valor en {moneda})', delay: 1000
             },
             {
-                id: 'q_fondos',
-                type: 'question',
-                text: '¿Cuánto capital tienes en Fondos de inversión líquidos o CDTs a muy corto plazo?',
-                delay: 1000,
-                inputType: 'number',
-                field: 'fondos_cdt'
+                id: 'q_fondos', type: 'question', inputType: 'number', field: 'fondos_cdt',
+                text: '¿Cuánto capital tienes en Fondos de inversión líquidos o CDTs a muy corto plazo? (Valor en {moneda})', delay: 1000
             },
             {
-                id: 'q_efectivo',
-                type: 'question',
-                text: 'Y por último en esta fase, ¿cuánto Efectivo disponible tienes a la mano?',
-                delay: 1000,
-                inputType: 'number',
-                field: 'efectivo'
+                id: 'q_efectivo', type: 'question', inputType: 'number', field: 'efectivo',
+                text: 'Y por último en esta fase, ¿cuánto Efectivo disponible tienes a la mano? (Valor en {moneda})', delay: 1000
+            },
+            { id: 'fase2_intro', type: 'bot', text: 'Perfecto. Pasemos a la FASE 2: La Presión Mensual. Es decir, el costo real de tu estilo de vida.', delay: 1500 },
+            {
+                id: 'q_gastos_fijos', type: 'question', inputType: 'number', field: 'gastos_fijos',
+                text: '¿A cuánto ascienden tus Gastos Fijos Mensuales (vivienda, servicios, seguros, educación, etc.) en {moneda}?', delay: 1000
             },
             {
-                id: 'fase2_intro',
-                type: 'bot',
-                text: 'Perfecto. Pasemos a la FASE 2: La Presión Mensual. Es decir, el costo real de tu estilo de vida.',
-                delay: 1000
+                id: 'q_gastos_variables', type: 'question', inputType: 'number', field: 'gastos_variables',
+                text: 'Aproximadamente, ¿cuáles son tus Gastos Variables Mensuales (salidas, viajes, lujos) en {moneda}?', delay: 1000
             },
             {
-                id: 'q_gastos_fijos',
-                type: 'question',
-                text: '¿A cuánto ascienden tus Gastos Fijos Mensuales (vivienda, servicios, seguros, educación, etc.)?',
-                delay: 1500,
-                inputType: 'number',
-                field: 'gastos_fijos'
+                id: 'q_creditos', type: 'question', inputType: 'number', field: 'cuotas_creditos',
+                text: '¿Cuánto pagas mensualmente en Cuotas de Créditos o Hipotecas en {moneda}?', delay: 1000
+            },
+            { id: 'fase3_intro', type: 'bot', text: '¡Ya casi terminamos! Solo faltan 3 preguntas clave para evaluar tu Test de Blindaje de Legado.', delay: 1500 },
+            {
+                id: 'q_legado_1', type: 'question', inputType: 'options', field: 'legado_estilo_vida',
+                text: 'Responde honestamente: ¿Tu familia podría mantener exactamente su mismo estilo de vida si tú llegaras a faltar hoy?', delay: 1000,
+                options: [ { label: 'Sí', value: 1 }, { label: 'No', value: 0 } ]
             },
             {
-                id: 'q_gastos_variables',
-                type: 'question',
-                text: 'Aproximadamente, ¿cuáles son tus Gastos Variables Mensuales (salidas, viajes, lujos)?',
-                delay: 1000,
-                inputType: 'number',
-                field: 'gastos_variables'
+                id: 'q_legado_2', type: 'question', inputType: 'options', field: 'legado_enfermedad',
+                text: '¿Tienes respaldo financiero garantizado ante una enfermedad catastrófica repentina?', delay: 1000,
+                options: [ { label: 'Sí', value: 1 }, { label: 'No', value: 0 } ]
             },
             {
-                id: 'q_creditos',
-                type: 'question',
-                text: '¿Cuánto pagas mensualmente en Cuotas de Créditos o Hipotecas?',
-                delay: 1000,
-                inputType: 'number',
-                field: 'cuotas_creditos'
-            },
-            {
-                id: 'fase3_intro',
-                type: 'bot',
-                text: '¡Ya casi terminamos! Solo faltan 3 preguntas clave para evaluar tu Test de Blindaje de Legado.',
-                delay: 1000
-            },
-            {
-                id: 'q_legado_1',
-                type: 'question',
-                text: 'Responde honestamente: ¿Tu familia podría mantener exactamente su mismo estilo de vida si tú llegaras a faltar hoy?',
-                delay: 1500,
-                inputType: 'options', // Sí o No
-                field: 'legado_estilo_vida'
-            },
-            {
-                id: 'q_legado_2',
-                type: 'question',
-                text: '¿Tienes respaldo financiero garantizado ante una enfermedad catastrófica repentina?',
-                delay: 1000,
-                inputType: 'options',
-                field: 'legado_enfermedad'
-            },
-            {
-                id: 'q_legado_3',
-                type: 'question',
-                text: 'Finalmente, ¿Tus deudas están estructuradas para liquidarse solas en tu ausencia?',
-                delay: 1000,
-                inputType: 'options',
-                field: 'legado_deudas'
+                id: 'q_legado_3', type: 'question', inputType: 'options', field: 'legado_deudas',
+                text: 'Finalmente, ¿Tus deudas están estructuradas para liquidarse solas en tu ausencia?', delay: 1000,
+                options: [ { label: 'Sí', value: 1 }, { label: 'No', value: 0 } ]
             }
         ];
 
-        // --- ESTADO DE LA APLICACIÓN ---
+        // --- ESTADO Y DOM ---
         let currentStepIndex = 0;
-        const userData = {}; // Aquí guardaremos la información para mandarla a la API
-        
-        // Elementos del DOM
+        const userData = {}; 
+        let confirmingState = null; // Para manejar la pregunta de "¿Te refieres a...?"
+
         const chatContainer = document.getElementById('chat-container');
         const chatForm = document.getElementById('chat-form');
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
         const optionsContainer = document.getElementById('options-container');
 
-        // --- FUNCIONES PRINCIPALES ---
-
-        // Iniciar el flujo y verificar cookies
+        // --- INICIALIZACIÓN ---
         window.onload = () => {
             checkCookies();
             processNextStep();
         };
 
-        // Lógica del Banner de Cookies
         function checkCookies() {
             const banner = document.getElementById('cookie-banner');
             const btn = document.getElementById('accept-cookies-btn');
-            
             if (!localStorage.getItem('cookies_accepted')) {
-                // Si no ha aceptado, se muestra el banner
                 btn.addEventListener('click', () => {
                     localStorage.setItem('cookies_accepted', 'true');
-                    banner.classList.add('translate-y-full'); // Animación para esconder
+                    banner.classList.add('translate-y-full');
                     setTimeout(() => banner.style.display = 'none', 500);
                 });
-            } else {
-                // Si ya aceptó, lo ocultamos inmediatamente
-                banner.style.display = 'none';
-            }
+            } else { banner.style.display = 'none'; }
         }
 
+        // --- MOTOR DEL CHAT ---
         async function processNextStep() {
-            if (currentStepIndex >= chatFlow.length) {
-                return finishChat();
-            }
+            if (currentStepIndex >= chatFlow.length) return finishChat();
 
             const step = chatFlow[currentStepIndex];
             
-            // Reemplazar variables en el texto (ej. {nombre})
+            // Reemplazo de variables dinámicas
             let textToDisplay = step.text;
-            if (userData.nombre && textToDisplay.includes('{nombre}')) {
-                textToDisplay = textToDisplay.replace('{nombre}', userData.nombre);
-            }
+            if (userData.nombres) textToDisplay = textToDisplay.replaceAll('{nombres}', userData.nombres);
+            if (userData.moneda) textToDisplay = textToDisplay.replaceAll('{moneda}', userData.moneda);
+            else textToDisplay = textToDisplay.replaceAll('{moneda}', 'tu moneda local'); // Fallback
 
-            // Mostrar indicador de "escribiendo..."
             const typingId = showTypingIndicator();
             scrollToBottom();
-
-            // Esperar el delay configurado
             await new Promise(resolve => setTimeout(resolve, step.delay));
-
-            // Remover el "escribiendo..."
             removeTypingIndicator(typingId);
 
-            // Mostrar el mensaje del bot
             addBotMessage(textToDisplay);
             scrollToBottom();
 
             if (step.type === 'bot') {
-                // Si es solo un mensaje del bot, pasar al siguiente automáticamente
                 currentStepIndex++;
                 processNextStep();
-            } else if (step.type === 'question') {
-                // Habilitar el input correcto según el tipo de pregunta
-                enableInput(step.inputType);
+            } else {
+                enableInput(step.inputType, step.options);
             }
         }
 
-        function enableInput(type) {
-            if (type === 'options') {
-                // Mostrar botones Sí/No
+        function enableInput(type, options = null) {
+            if (type === 'options' || options) {
                 userInput.classList.add('hidden');
                 sendBtn.classList.add('hidden');
                 optionsContainer.classList.remove('hidden');
                 optionsContainer.classList.add('flex');
                 
-                // Limpiar event listeners previos clonando los botones
-                const newOptions = optionsContainer.cloneNode(true);
-                optionsContainer.parentNode.replaceChild(newOptions, optionsContainer);
+                optionsContainer.innerHTML = ''; // Limpiar anteriores
                 
-                // Re-asignar variable global y añadir listeners
-                const updatedOptionsContainer = document.getElementById('options-container');
-                const btns = updatedOptionsContainer.querySelectorAll('.option-btn');
-                
-                btns.forEach(btn => {
-                    btn.addEventListener('click', function(e) {
+                // Inyectar botones dinámicamente
+                options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = 'bg-slate-100 text-slate-700 hover:bg-emerald-100 hover:text-emerald-800 border border-slate-300 rounded-full py-2 px-5 font-semibold transition-colors text-sm';
+                    btn.innerText = opt.label;
+                    btn.onclick = (e) => {
                         e.preventDefault();
-                        const val = this.getAttribute('data-value');
-                        const text = this.innerText;
-                        handleUserResponse(val, text); // Guardamos 1 o 0 (como en tu CSV) pero mostramos Sí/No
-                    });
+                        handleUserResponse(opt.value, opt.label);
+                    };
+                    optionsContainer.appendChild(btn);
                 });
             } else {
-                // Mostrar input de texto/número/email
-                document.getElementById('options-container').classList.add('hidden');
-                document.getElementById('options-container').classList.remove('flex');
-                
+                optionsContainer.classList.add('hidden');
+                optionsContainer.classList.remove('flex');
                 userInput.classList.remove('hidden');
                 sendBtn.classList.remove('hidden');
                 
@@ -420,17 +375,12 @@
             userInput.value = '';
             userInput.disabled = true;
             sendBtn.disabled = true;
-            
-            const opts = document.getElementById('options-container');
-            opts.classList.add('hidden');
-            opts.classList.remove('flex');
-            
+            optionsContainer.classList.add('hidden');
+            optionsContainer.classList.remove('flex');
             userInput.classList.remove('hidden');
             sendBtn.classList.remove('hidden');
         }
 
-        // --- MANEJO DE EVENTOS DE USUARIO ---
-        
         chatForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const val = userInput.value.trim();
@@ -439,65 +389,117 @@
         });
 
         function handleUserResponse(actualValue, displayText) {
+            // 1. Verificar si estamos esperando una confirmación de autocorrector (Ej: País)
+            if (confirmingState) {
+                if (actualValue === 'si') {
+                    userData[confirmingState.field] = confirmingState.proposedValue;
+                    if (confirmingState.field === 'pais') {
+                        userData.moneda = currencyMap[confirmingState.proposedValue] || 'USD';
+                    }
+                    addUserMessage(displayText);
+                    confirmingState = null;
+                    disableInput();
+                    currentStepIndex++;
+                    processNextStep();
+                } else {
+                    addUserMessage(displayText);
+                    addBotMessage("Entendido. Por favor, escríbelo de nuevo completo y sin abreviaciones:");
+                    confirmingState = null;
+                    enableInput('text');
+                }
+                return;
+            }
+
             const currentStep = chatFlow[currentStepIndex];
-            
-            // Guardar dato en nuestro objeto JSON
+
+            // 2. Validaciones estrictas
+            if (currentStep.validate) {
+                const error = currentStep.validate(actualValue);
+                if (error) {
+                    addUserMessage(displayText);
+                    addBotMessage(error);
+                    userInput.value = ''; // limpiar pero no avanzar
+                    scrollToBottom();
+                    return;
+                }
+            }
+
+            // 3. Procesamiento de Autocorrector (Países y Ciudades)
+            if (currentStep.process) {
+                const result = currentStep.process(actualValue);
+                if (result.requiresConfirmation) {
+                    addUserMessage(displayText);
+                    confirmingState = { field: currentStep.field, proposedValue: result.proposedValue };
+                    addBotMessage(`¿Te refieres a ${result.proposedValue}?`);
+                    enableInput('options', [{label: 'Sí', value: 'si'}, {label: 'No, escribir de nuevo', value: 'no'}]);
+                    scrollToBottom();
+                    return;
+                } else {
+                    actualValue = result.value;
+                    displayText = actualValue; // Mostrar en mayúsculas en el chat
+                }
+            }
+
+            // 4. Guardado normal
             userData[currentStep.field] = actualValue;
             
-            // Mostrar mensaje del usuario en UI
+            // Si el país se ingresó sin abreviación, asignar moneda aquí
+            if (currentStep.field === 'pais' && !userData.moneda) {
+                 userData.moneda = currencyMap[actualValue] || 'USD';
+            }
+
+            // Para la UI y avanzar
+            // Si combinamos el nombre para los resultados futuros:
+            if (currentStep.field === 'apellidos') {
+                userData.nombre = `${userData.nombres} ${userData.apellidos}`; // Guardamos el nombre completo para el HTML de resultados
+            }
+
             addUserMessage(displayText);
             disableInput();
-            scrollToBottom();
-
-            // Avanzar al siguiente paso
             currentStepIndex++;
             processNextStep();
         }
 
-        // --- FUNCIONES DE RENDERIZADO UI ---
-
+        // --- RENDERIZADO VISUAL ---
         function addBotMessage(text) {
             const html = `
-                <div class="flex items-start gap-4 w-full md:w-4/5 fade-in-up">
+                <div class="flex items-start gap-3 md:gap-4 w-full md:w-4/5 fade-in-up">
                     <div class="flex-shrink-0">
-                        <img src="kelly.png" alt="Kelly" class="w-12 h-12 object-contain drop-shadow-sm" onerror="this.src='https://ui-avatars.com/api/?name=K&background=0D8BCA&color=fff'">
+                        <img src="kelly.png" alt="Kelly" class="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-sm" onerror="this.src='https://ui-avatars.com/api/?name=K&background=0D8BCA&color=fff'">
                     </div>
-                    <div class="bg-white border border-slate-100 shadow-sm p-4 rounded-2xl rounded-tl-none text-slate-700 leading-relaxed">
+                    <div class="bg-white border border-slate-100 shadow-sm p-3 md:p-4 rounded-2xl rounded-tl-none text-slate-700 leading-relaxed text-sm md:text-base">
                         <p>${text}</p>
                     </div>
-                </div>
-            `;
+                </div>`;
             chatContainer.insertAdjacentHTML('beforeend', html);
         }
 
         function addUserMessage(text) {
             const html = `
-                <div class="flex items-start gap-4 w-full md:w-4/5 ml-auto flex-row-reverse fade-in-up">
+                <div class="flex items-start gap-3 md:gap-4 w-full md:w-4/5 ml-auto flex-row-reverse fade-in-up">
                     <div class="flex-shrink-0">
-                        <div class="w-10 h-10 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center font-bold text-slate-500">
-                            ${userData.nombre ? userData.nombre.charAt(0).toUpperCase() : 'Tú'}
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center font-bold text-slate-500">
+                            ${userData.nombres ? userData.nombres.charAt(0).toUpperCase() : 'Tú'}
                         </div>
                     </div>
-                    <div class="bg-slate-900 text-white shadow-md p-4 rounded-2xl rounded-tr-none leading-relaxed">
+                    <div class="bg-slate-900 text-white shadow-md p-3 md:p-4 rounded-2xl rounded-tr-none leading-relaxed text-sm md:text-base">
                         <p>${text}</p>
                     </div>
-                </div>
-            `;
+                </div>`;
             chatContainer.insertAdjacentHTML('beforeend', html);
         }
 
         function showTypingIndicator() {
             const id = 'typing-' + Date.now();
             const html = `
-                <div id="${id}" class="flex items-start gap-4 w-4/5 fade-in-up">
+                <div id="${id}" class="flex items-start gap-3 md:gap-4 w-4/5 fade-in-up">
                     <div class="flex-shrink-0">
-                        <img src="kelly.png" alt="Kelly" class="w-12 h-12 object-contain drop-shadow-sm" onerror="this.src='https://ui-avatars.com/api/?name=K&background=0D8BCA&color=fff'">
+                        <img src="kelly.png" alt="Kelly" class="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-sm" onerror="this.src='https://ui-avatars.com/api/?name=K&background=0D8BCA&color=fff'">
                     </div>
-                    <div class="bg-white border border-slate-100 shadow-sm p-4 rounded-2xl rounded-tl-none typing-indicator">
+                    <div class="bg-white border border-slate-100 shadow-sm p-3 md:p-4 rounded-2xl rounded-tl-none typing-indicator flex items-center h-12">
                         <span></span><span></span><span></span>
                     </div>
-                </div>
-            `;
+                </div>`;
             chatContainer.insertAdjacentHTML('beforeend', html);
             return id;
         }
@@ -511,52 +513,17 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
-        // --- ENVÍO A LA API ---
+        // --- FINALIZAR ---
         async function finishChat() {
-            // Mostrar mensaje final de carga
             addBotMessage("¡Listo! Estoy estructurando tu información y calculando tu nivel de Inmunidad Patrimonial... Dame un segundo.");
             scrollToBottom();
-            showTypingIndicator(); // Simulamos que la API está trabajando
+            showTypingIndicator();
 
-            try {
-                /*
-                ===========================================================
-                CÓDIGO REAL PARA VERCEL (Descomentar al implementar el API)
-                ===========================================================
-                
-                const response = await fetch('/api/enviar-reporte-personal', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(userData)
-                });
-                
-                const data = await response.json();
-                
-                if(data.success) {
-                    // Guardar el ID de la respuesta en local temporalmente para mostrar el reporte
-                    sessionStorage.setItem('currentReportId', data.reportId);
-                    window.location.href = 'r_inmunidad_patrimonial.html';
-                } else {
-                    throw new Error("Error en la respuesta de la API");
-                }
-                */
-
-                // SIMULACIÓN DE LA API PARA ESTA ETAPA (Mock)
-                setTimeout(() => {
-                    console.log("Datos capturados para enviar a la API:", userData);
-                    // Guardamos la data en localStorage SOLO TEMPORALMENTE para que el siguiente HTML (la vista previa) 
-                    // pueda leerlo sin necesidad del backend activo en este momento.
-                    localStorage.setItem('temp_inmunidad_data', JSON.stringify(userData));
-                    
-                    // Redirigir al siguiente paso
-                    window.location.href = 'r_inmunidad_patrimonial.html';
-                }, 3000);
-
-            } catch (error) {
-                console.error("Error al procesar:", error);
-                addBotMessage("Hubo un pequeño problema de conexión al guardar tus datos. Por favor, intenta de nuevo.");
-                removeTypingIndicator();
-            }
+            setTimeout(() => {
+                console.log("Datos capturados:", userData);
+                localStorage.setItem('temp_inmunidad_data', JSON.stringify(userData));
+                window.location.href = 'r_inmunidad_patrimonial.html';
+            }, 3000);
         }
     </script>
 </body>
