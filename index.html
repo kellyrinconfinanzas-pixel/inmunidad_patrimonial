@@ -3,694 +3,356 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tu Inmunidad Patrimonial | Kelly-Finanzas</title>
+    <title>Tus Resultados | Inmunidad Patrimonial</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Incluir Chart.js para el gráfico circular -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        #chat-container::-webkit-scrollbar { width: 6px; }
-        #chat-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 8px; }
-        #chat-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
-        #chat-container::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .fade-in { animation: fadeIn 0.8s ease-out forwards; opacity: 0; }
+        .slide-up { animation: slideUp 0.6s ease-out forwards; opacity: 0; transform: translateY(20px); }
         
-        .fade-in-up { animation: fadeInUp 0.4s ease-out forwards; opacity: 0; transform: translateY(10px); }
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-
-        .typing-indicator span {
-            display: inline-block; width: 6px; height: 6px; background-color: #10b981;
-            border-radius: 50%; margin: 0 2px; animation: bounce 1.4s infinite ease-in-out both;
-        }
-        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        
+        /* Retrasos para cascada de animaciones */
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
     </style>
 </head>
-<body class="bg-white text-slate-800 font-sans h-[100dvh] overflow-hidden flex flex-col">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
 
-    <!-- Banner de Cookies -->
-    <div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-slate-900 text-white p-4 z-[60] flex flex-col md:flex-row justify-between items-center shadow-2xl transition-transform duration-500 translate-y-0">
-        <div class="text-sm mb-4 md:mb-0 max-w-4xl px-4">
-            Utilizamos cookies para garantizar que tengas la mejor experiencia, procesar tu diagnóstico y enviarte tus resultados. Al continuar usando esta plataforma, aceptas nuestra <a href="politica_datos.html" class="text-emerald-400 font-semibold hover:text-emerald-300 underline">Política de Tratamiento de Datos</a>.
-        </div>
-        <div class="px-4">
-            <button id="accept-cookies-btn" class="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-2 rounded-full font-bold text-sm transition-colors whitespace-nowrap">
-                Entendido
+    <!-- Navegación Superior -->
+    <nav class="bg-slate-900 text-white p-4 shadow-md sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="kelly.png" alt="Kelly Avatar" class="w-12 h-12 object-contain drop-shadow-sm" onerror="this.src='https://ui-avatars.com/api/?name=Kelly+Finanzas&background=0D8BCA&color=fff'">
+                <div>
+                    <h1 class="font-bold text-lg text-emerald-400 leading-tight">Inmunidad Patrimonial</h1>
+                    <p class="text-xs text-slate-300">Diagnóstico Confidencial</p>
+                </div>
+            </div>
+            <!-- Botón para descargar PDF (Simulado por ahora) -->
+            <button onclick="window.print()" class="hidden md:flex items-center gap-2 bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                Guardar PDF
             </button>
         </div>
-    </div>
+    </nav>
 
-    <!-- Header Móvil -->
-    <div class="md:hidden bg-slate-900 text-white py-3 px-4 shadow-md z-10 shrink-0 flex items-center justify-between overflow-hidden">
-        <div>
-            <h1 class="font-bold text-lg text-emerald-400 leading-tight mb-1">Inmunidad Patrimonial</h1>
-            <div class="text-xs text-slate-300">
-                <a href="https://www.linkedin.com/in/kelly-johanna-rinc%C3%B3n-pastrana-asesora-financiera-inversiones/" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                    Kelly Rincón Pastrana
-                </a>
-                <p class="mt-0.5 opacity-80 text-[10px]">Asesora y Estratega en Blindaje Patrimonial</p>
+    <main class="flex-grow p-4 md:p-8">
+        <div class="max-w-4xl mx-auto space-y-6">
+
+            <!-- Mensaje de Carga Inicial -->
+            <div id="loading-state" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-12 text-center">
+                <div class="w-16 h-16 border-4 border-slate-200 border-t-emerald-500 rounded-full animate-spin mx-auto mb-6"></div>
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Calculando tu Inmunidad...</h2>
+                <p class="text-slate-500">Procesando fases y evaluando vulnerabilidad.</p>
             </div>
-        </div>
-        <img src="kelly.png" alt="Kelly Avatar" class="w-14 h-14 scale-125 origin-right object-contain drop-shadow-sm shrink-0" onerror="this.src='https://ui-avatars.com/api/?name=Kelly+Finanzas&background=0D8BCA&color=fff'">
-    </div>
 
-    <div class="flex-1 min-h-0 flex flex-col md:flex-row h-full overflow-hidden">
-        
-        <!-- Columna Izquierda (Desktop) -->
-        <div class="hidden md:flex md:w-5/12 lg:w-1/2 bg-slate-50 flex-col justify-center items-center relative border-r border-slate-200 overflow-y-auto">
-            <div class="absolute w-[400px] h-[400px] bg-emerald-100 rounded-full blur-3xl opacity-50 -z-0"></div>
-            
-            <div class="z-10 text-center flex flex-col items-center p-8 min-h-min">
-                <img src="kelly.png" alt="Kelly-Finanzas" class="w-auto h-auto max-w-md max-h-[55vh] object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.15)] mb-6 transition-transform duration-500 hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Kelly+Finanzas&background=0D8BCA&color=fff&size=256'">
-                <h1 class="text-3xl lg:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
-                    Tu <span class="text-emerald-600">Inmunidad</span> Patrimonial
-                </h1>
-                <p class="text-lg text-slate-600 max-w-md">
-                    Descubre cuánto tiempo puedes sostener tu estándar de vida sin depender de tu próximo ingreso.
-                </p>
-            </div>
-        </div>
+            <!-- Contenedor Principal de Resultados (Oculto hasta calcular) -->
+            <div id="results-container" class="hidden space-y-6">
+                
+                <!-- Encabezado de Resultados -->
+                <div class="text-center slide-up">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2">Hola, <span id="res-nombre" class="text-emerald-600">Usuario</span></h2>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">Este es tu diagnóstico ejecutivo. Recuerda: los datos no hieren el ego, la realidad sí.</p>
+                </div>
 
-        <!-- Columna Derecha: Chatbot -->
-        <div class="w-full md:w-7/12 lg:w-1/2 flex flex-col h-full bg-white relative">
-            
-            <!-- Cabecera Chat Desktop -->
-            <div class="hidden md:block border-b border-slate-100 p-6 bg-white shadow-sm z-10 shrink-0">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
-                        <div>
-                            <h2 class="font-bold text-slate-800 text-xl">Kelly Rincón Pastrana</h2>
-                            <p class="text-sm text-slate-500">Asesora y Estratega en Blindaje Patrimonial</p>
+                <!-- Tarjeta Principal: Meses de Inmunidad -->
+                <div class="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden slide-up delay-100">
+                    <div id="card-header" class="p-6 md:p-10 text-center text-white bg-slate-800 relative overflow-hidden transition-colors duration-500">
+                        <!-- Círculo decorativo -->
+                        <div class="absolute -right-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl"></div>
+                        
+                        <p class="text-sm md:text-base font-medium opacity-90 mb-2 uppercase tracking-wider">Tu Número de Inmunidad</p>
+                        <div class="flex items-baseline justify-center gap-2 mb-2">
+                            <span id="res-meses" class="text-6xl md:text-8xl font-black tracking-tighter">0</span>
+                            <span class="text-xl md:text-3xl font-semibold opacity-80">Meses</span>
+                        </div>
+                        
+                        <div class="inline-flex items-center gap-2 px-4 py-2 bg-black bg-opacity-20 rounded-full backdrop-blur-sm mt-4">
+                            <div id="status-dot" class="w-3 h-3 rounded-full bg-slate-400 animate-pulse"></div>
+                            <span id="res-estado" class="font-bold text-sm md:text-base">Calculando...</span>
                         </div>
                     </div>
-                    <div class="flex items-center gap-4">
-                        <a href="https://www.linkedin.com/in/kelly-johanna-rinc%C3%B3n-pastrana-asesora-financiera-inversiones/" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-[#0077b5] transition-colors" title="Ver perfil en LinkedIn">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                        </a>
-                        <a href="https://www.instagram.com/kellyrincon_asesorafinanciera" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-[#E1306C] transition-colors" title="Ver perfil en Instagram">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.209-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BARRA DE PROGRESO -->
-            <div id="progress-wrapper" class="w-full bg-white border-b border-slate-100 px-4 md:px-8 py-3 hidden shrink-0 z-10 shadow-sm relative transition-opacity duration-500">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Progreso del Diagnóstico</span>
-                    <span id="progress-text" class="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-0.5 rounded-full">0 de 0 (0%)</span>
-                </div>
-                <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                    <div id="progress-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-700 ease-out" style="width: 0%"></div>
-                </div>
-            </div>
-
-            <!-- Área de mensajes -->
-            <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-32 md:pb-40 bg-slate-50 md:bg-white relative">
-                <!-- Se inyectan mensajes -->
-            </div>
-
-            <!-- Área de Input y Botón de Retroceso -->
-            <div class="absolute bottom-0 left-0 w-full p-4 bg-white border-t border-slate-200 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)] z-20">
-                <div class="max-w-2xl mx-auto flex items-center gap-3">
                     
-                    <!-- Botón de Atrás -->
-                    <button type="button" id="back-btn" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-600 rounded-full p-3 transition-colors shrink-0 hidden" onclick="goBack()" title="Retroceder a la pregunta anterior">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-                    </button>
-
-                    <!-- Formulario de Texto -->
-                    <form id="chat-form" class="flex-1 relative flex items-center gap-2">
-                        <input type="text" id="user-input" class="w-full bg-slate-100 border border-slate-300 text-slate-900 rounded-full py-3 px-6 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all disabled:opacity-50" placeholder="Escribe aquí..." autocomplete="off" disabled>
-                        <button type="submit" id="send-btn" class="bg-slate-900 hover:bg-emerald-600 text-white rounded-full p-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0" disabled>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
-                        </button>
-                    </form>
-
-                    <!-- Contenedor dinámico de opciones (Botones múltiples) -->
-                    <div id="options-container" class="flex-1 flex flex-wrap gap-2 hidden justify-start">
-                        <!-- Los botones se inyectan acá -->
+                    <div class="p-6 md:p-8 bg-white text-center">
+                        <p id="res-mensaje-estado" class="text-slate-700 md:text-lg max-w-3xl mx-auto leading-relaxed font-medium">
+                            Análisis en proceso.
+                        </p>
                     </div>
                 </div>
+
+                <!-- Grid de Detalles (Fase 1 y 2) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 slide-up delay-200">
+                    
+                    <!-- Fase 1: Oxígeno -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col h-full">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" /></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800">Fase 1: Oxígeno Financiero</h3>
+                                <p class="text-xs text-slate-500">Capital líquido disponible (< 30 días)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4 flex-grow">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-600">Cuentas ahorro/corriente</span>
+                                <span id="val-ahorro" class="font-semibold text-slate-800">$0</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-600">Fondos o CDTs líquidos</span>
+                                <span id="val-fondos" class="font-semibold text-slate-800">$0</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-600">Efectivo disponible</span>
+                                <span id="val-efectivo" class="font-semibold text-slate-800">$0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-end">
+                            <span class="text-sm font-bold text-slate-400 uppercase">Total (A)</span>
+                            <span id="total-a" class="text-2xl font-bold text-blue-600">$0</span>
+                        </div>
+                    </div>
+
+                    <!-- Fase 2: Presión -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col h-full">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                            <div class="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center text-rose-500 shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" /></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800">Fase 2: Presión Mensual</h3>
+                                <p class="text-xs text-slate-500">Costo real de tu estilo de vida</p>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow flex flex-col md:flex-row items-center gap-6">
+                            <!-- Gráfico -->
+                            <div class="w-32 h-32 shrink-0 relative">
+                                <canvas id="gastosChart"></canvas>
+                            </div>
+                            <!-- Leyenda -->
+                            <div class="space-y-3 w-full">
+                                <div class="flex justify-between text-sm items-center">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-2 h-2 rounded-full bg-slate-800"></div>
+                                        <span class="text-slate-600">Fijos</span>
+                                    </div>
+                                    <span id="val-fijos" class="font-semibold text-slate-800">$0</span>
+                                </div>
+                                <div class="flex justify-between text-sm items-center">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-2 h-2 rounded-full bg-slate-400"></div>
+                                        <span class="text-slate-600">Variables</span>
+                                    </div>
+                                    <span id="val-variables" class="font-semibold text-slate-800">$0</span>
+                                </div>
+                                <div class="flex justify-between text-sm items-center">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-2 h-2 rounded-full bg-rose-500"></div>
+                                        <span class="text-slate-600">Créditos</span>
+                                    </div>
+                                    <span id="val-creditos" class="font-semibold text-slate-800">$0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-end">
+                            <span class="text-sm font-bold text-slate-400 uppercase">Total (B)</span>
+                            <span id="total-b" class="text-2xl font-bold text-rose-600">$0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test de Legado -->
+                <div class="bg-slate-900 text-white p-6 md:p-8 rounded-2xl shadow-lg slide-up delay-300 relative overflow-hidden">
+                    <!-- Patrón decorativo -->
+                    <svg class="absolute right-0 top-0 text-slate-800 w-64 h-64 -mt-10 -mr-10 opacity-50 pointer-events-none" fill="currentColor" viewBox="0 0 100 100"><path d="M50 0L100 25L100 75L50 100L0 75L0 25L50 0Z" opacity="0.1"/><path d="M50 10L90 30L90 70L50 90L10 70L10 30L50 10Z" opacity="0.2"/><path d="M50 20L80 35L80 65L50 80L20 65L20 35L50 20Z" opacity="0.3"/></svg>
+                    
+                    <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+                        <div class="md:w-1/3 text-center md:text-left">
+                            <h3 class="text-2xl font-bold text-amber-400 mb-2">Test de Blindaje de Legado</h3>
+                            <p class="text-slate-300 text-sm mb-4">Evaluación de protección familiar e imprevistos.</p>
+                            <div id="legado-badge" class="inline-block px-4 py-2 rounded-lg font-bold text-sm bg-slate-800 border border-slate-700">
+                                Calculando...
+                            </div>
+                        </div>
+                        
+                        <div class="md:w-2/3 space-y-4 w-full">
+                            <div class="flex items-start justify-between gap-4 border-b border-slate-800 pb-3">
+                                <span class="text-slate-200 text-sm">¿Tu familia mantiene su estilo de vida si hoy faltas?</span>
+                                <span id="legado-1" class="font-bold shrink-0 text-emerald-400">Sí</span>
+                            </div>
+                            <div class="flex items-start justify-between gap-4 border-b border-slate-800 pb-3">
+                                <span class="text-slate-200 text-sm">¿Tienes respaldo ante enfermedad catastrófica?</span>
+                                <span id="legado-2" class="font-bold shrink-0 text-rose-400">No</span>
+                            </div>
+                            <div class="flex items-start justify-between gap-4">
+                                <span class="text-slate-200 text-sm">¿Tus deudas se liquidan solas en tu ausencia?</span>
+                                <span id="legado-3" class="font-bold shrink-0 text-emerald-400">Sí</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Llamado a la acción (Kelly) -->
+                <div class="bg-emerald-50 border border-emerald-100 p-6 md:p-8 rounded-2xl flex flex-col md:flex-row items-center gap-6 slide-up delay-400">
+                    <img src="kelly.png" alt="Kelly Rincón" class="w-24 h-24 object-contain drop-shadow-md shrink-0" onerror="this.src='https://ui-avatars.com/api/?name=K&background=0D8BCA&color=fff'">
+                    <div class="text-center md:text-left">
+                        <h4 class="text-xl font-bold text-slate-900 mb-2">¿Tu número fue menor de lo que esperabas?</h4>
+                        <p class="text-slate-700 mb-4 font-medium italic">"El problema no es lo que ganas, sino la falta de estructura."</p>
+                        <a href="https://wa.me/573228565491?text=Hola%20Kelly,%20mi%20resultado%20fue%20menor%20al%20esperado.%20ESTRUCTURA" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+                            Escríbeme con la palabra ESTRUCTURA
+                        </a>
+                        <p class="text-xs text-slate-500 mt-3">Sujeto a disponibilidad de agenda.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- Footer -->
-    <footer class="w-full bg-white border-t border-slate-200 py-2 md:py-3 flex flex-col md:flex-row justify-center items-center gap-2 md:gap-8 z-30 px-4 relative shrink-0">
-        <p class="text-xs text-slate-400">&copy; 2026 Todos los derechos reservados.</p>
-        <a href="politica_datos.html" class="text-xs text-slate-400 hover:text-emerald-600 transition-colors">Política de Tratamiento de Datos</a>
-        <div class="absolute right-4 md:static flex gap-3">
-            <a href="login.html" class="text-[10px] text-slate-100 hover:text-emerald-500 transition-colors opacity-50 hover:opacity-100 cursor-default hover:cursor-pointer">acceso kelly</a>
-        </div>
+    <footer class="w-full bg-white border-t border-slate-200 py-4 text-center mt-auto">
+        <p class="text-xs text-slate-400">&copy; 2026 Kelly Rincón Pastrana. Todos los derechos reservados.</p>
     </footer>
 
     <script>
-        // --- DICCIONARIOS Y CONFIGURACIÓN AMPLIADOS ---
-        const countryMap = {
-            'cbia': 'COLOMBIA', 'col': 'COLOMBIA', 'colombia': 'COLOMBIA',
-            'arg': 'ARGENTINA', 'argentina': 'ARGENTINA',
-            'mex': 'MÉXICO', 'mx': 'MÉXICO', 'mexico': 'MÉXICO', 'méxico': 'MÉXICO',
-            'pe': 'PERÚ', 'peru': 'PERÚ', 'perú': 'PERÚ',
-            'ven': 'VENEZUELA', 'venezuela': 'VENEZUELA',
-            'usa': 'ESTADOS UNIDOS', 'eeuu': 'ESTADOS UNIDOS', 'estados unidos': 'ESTADOS UNIDOS',
-            'esp': 'ESPAÑA', 'españa': 'ESPAÑA', 'chi': 'CHILE', 'chile': 'CHILE',
-            'ecu': 'ECUADOR', 'ecuador': 'ECUADOR', 'rd': 'REPÚBLICA DOMINICANA',
-            'hon': 'HONDURAS', 'honduras': 'HONDURAS',
-            'bol': 'BOLIVIA', 'bolivia': 'BOLIVIA', 'par': 'PARAGUAY', 'paraguay': 'PARAGUAY',
-            'uru': 'URUGUAY', 'uruguay': 'URUGUAY', 'cri': 'COSTA RICA', 'costa rica': 'COSTA RICA',
-            'pan': 'PANAMÁ', 'panama': 'PANAMÁ', 'panamá': 'PANAMÁ', 'gua': 'GUATEMALA', 'guatemala': 'GUATEMALA',
-            'slv': 'EL SALVADOR', 'el salvador': 'EL SALVADOR', 'nic': 'NICARAGUA', 'nicaragua': 'NICARAGUA',
-            'pri': 'PUERTO RICO', 'puerto rico': 'PUERTO RICO'
+        // --- LÓGICA DE CÁLCULO ---
+        
+        // Función para formatear moneda
+        const formatMoney = (amount) => {
+            return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(amount);
         };
 
-        const cityMap = {
-            'bq': 'BARRANQUILLA', 'baq': 'BARRANQUILLA', 'quilla': 'BARRANQUILLA', 'barranquilla': 'BARRANQUILLA',
-            'bsas': 'BUENOS AIRES', 'baires': 'BUENOS AIRES', 'buenos aires': 'BUENOS AIRES',
-            'bog': 'BOGOTÁ', 'bogota': 'BOGOTÁ', 'bogotá': 'BOGOTÁ',
-            'med': 'MEDELLÍN', 'medellin': 'MEDELLÍN', 'medellín': 'MEDELLÍN',
-            'cal': 'CALI', 'cali': 'CALI',
-            'cdmx': 'CIUDAD DE MÉXICO', 'ciudad de mexico': 'CIUDAD DE MÉXICO',
-            'mty': 'MONTERREY', 'monterrey': 'MONTERREY',
-            'gdl': 'GUADALAJARA', 'guadalajara': 'GUADALAJARA',
-            'lim': 'LIMA', 'lima': 'LIMA', 'stgo': 'SANTIAGO', 'santiago': 'SANTIAGO',
-            'tgu': 'TEGUCIGALPA', 'tegu': 'TEGUCIGALPA', 'tegucigalpa': 'TEGUCIGALPA',
-            'sps': 'SAN PEDRO SULA', 'san pedro sula': 'SAN PEDRO SULA',
-            'car': 'CARACAS', 'caracas': 'CARACAS', 'uio': 'QUITO', 'quito': 'QUITO',
-            'gye': 'GUAYAQUIL', 'guayaquil': 'GUAYAQUIL', 'mvd': 'MONTEVIDEO', 'montevideo': 'MONTEVIDEO',
-            'asu': 'ASUNCIÓN', 'asuncion': 'ASUNCIÓN', 'asunción': 'ASUNCIÓN',
-            'sjo': 'SAN JOSÉ', 'san jose': 'SAN JOSÉ', 'san josé': 'SAN JOSÉ',
-            'pty': 'CIUDAD DE PANAMÁ', 'panama': 'CIUDAD DE PANAMÁ', 'panamá': 'CIUDAD DE PANAMÁ'
-        };
+        // Función para obtener texto de Sí/No
+        const getYesNo = (val) => String(val) === "1" ? '<span class="text-emerald-400">Sí</span>' : '<span class="text-rose-400">No</span>';
 
-        const currencyMap = {
-            'COLOMBIA': 'COP', 'MÉXICO': 'MXN', 'ARGENTINA': 'ARS', 'PERÚ': 'PEN', 
-            'VENEZUELA': 'USD', 'ESTADOS UNIDOS': 'USD', 'ESPAÑA': 'EUR', 'CHILE': 'CLP', 
-            'ECUADOR': 'USD', 'PANAMÁ': 'USD', 'EL SALVADOR': 'USD', 'HONDURAS': 'HNL',
-            'BOLIVIA': 'BOB', 'PARAGUAY': 'PYG', 'URUGUAY': 'UYU', 'COSTA RICA': 'CRC',
-            'GUATEMALA': 'GTQ', 'NICARAGUA': 'NIO', 'PUERTO RICO': 'USD', 'REPÚBLICA DOMINICANA': 'DOP'
-        };
-
-        // --- FLUJO DEL CHAT ---
-        const chatFlow = [
-            { id: 'intro_1', type: 'bot', text: '¡Hola! Si estás aquí, probablemente ganas bien. Tal vez inviertes. Seguramente te consideras responsable financieramente.', delay: 1500 },
-            { id: 'intro_2', type: 'bot', text: 'Pero hay una diferencia incómoda entre tener ingresos altos y tener inmunidad patrimonial. La mayoría confunde facturación con estructura.', delay: 2000 },
-            { 
-                id: 'q_nombres', type: 'question', inputType: 'text', field: 'nombres',
-                text: 'Para empezar con este diagnóstico privado, ¿cuáles son tus nombres?', delay: 1000,
-                validate: (val) => val.trim().length >= 2 ? null : 'Por favor, escribe un nombre válido (mínimo 2 letras).'
-            },
-            { 
-                id: 'q_apellidos', type: 'question', inputType: 'text', field: 'apellidos',
-                text: 'Perfecto. ¿Y cuáles son tus apellidos?', delay: 800,
-                validate: (val) => val.trim().length >= 2 ? null : 'Por favor, escribe un apellido válido.'
-            },
-            { 
-                id: 'bot_presentacion', type: 'bot', 
-                text: 'Hola {nombres}, yo soy Kelly Rincón Pastrana, Asesora y Estratega en Blindaje Patrimonial. Mi misión es ayudar a profesionales de altos ingresos y empresarios a proteger, estructurar y multiplicar su capital de forma segura.', 
-                delay: 2000 
-            },
-            {
-                id: 'q_politica', type: 'question', inputType: 'options', field: 'acepta_politica',
-                text: 'Antes de continuar con tus datos, ¿estás de acuerdo en que sean tratados de acuerdo a nuestra <a href="politica_datos.html" target="_blank" class="text-emerald-600 underline font-semibold">Política de Tratamiento de Datos</a>?', 
-                delay: 1500,
-                options: [ { label: 'Sí, acepto', value: 'si' }, { label: 'No acepto', value: 'no' } ]
-            },
-            { 
-                id: 'q_email', type: 'question', inputType: 'email', field: 'email',
-                text: '¡Excelente! ¿A qué correo electrónico enviaré tu reporte detallado al finalizar?', delay: 800
-            },
-            { id: 'bot_demograficos', type: 'bot', text: 'Para contextualizar mejor tus resultados financieros, necesito unos breves datos sobre ti.', delay: 1500 },
-            { 
-                id: 'q_pais', type: 'question', inputType: 'text', field: 'pais',
-                text: '¿De qué país nos visitas?', delay: 800,
-                validate: (val) => val.trim().length >= 3 ? null : 'Por favor, escribe el nombre de tu país más completo.',
-                process: (val) => {
-                    let cleanVal = val.trim().toLowerCase();
-                    if (countryMap[cleanVal]) return { requiresConfirmation: true, proposedValue: countryMap[cleanVal] };
-                    if (cleanVal.length >= 3) {
-                        const found = Object.values(countryMap).find(country => country.toLowerCase().startsWith(cleanVal));
-                        if (found && found.toLowerCase() !== cleanVal) return { requiresConfirmation: true, proposedValue: found };
-                    }
-                    return { value: val.trim().toUpperCase() };
-                }
-            },
-            { 
-                id: 'q_ciudad', type: 'question', inputType: 'text', field: 'ciudad',
-                text: '¿Y en qué ciudad resides?', delay: 800,
-                validate: (val) => val.trim().length >= 3 ? null : 'Por favor, escribe el nombre de tu ciudad más completo para poder identificarla.',
-                process: (val) => {
-                    let cleanVal = val.trim().toLowerCase();
-                    if (cityMap[cleanVal]) return { requiresConfirmation: true, proposedValue: cityMap[cleanVal] };
-                    if (cleanVal.length >= 3) {
-                        const found = Object.values(cityMap).find(city => city.toLowerCase().startsWith(cleanVal));
-                        if (found && found.toLowerCase() !== cleanVal) return { requiresConfirmation: true, proposedValue: found };
-                    }
-                    return { value: val.trim().toUpperCase() };
-                }
-            },
-            {
-                id: 'q_edad', type: 'question', inputType: 'number', field: 'edad',
-                text: '¿Qué edad tienes?', delay: 800,
-                validate: (val) => val !== '' && !isNaN(val) && val > 15 && val < 100 ? null : 'Por favor ingresa una edad válida.'
-            },
-            {
-                id: 'q_genero', type: 'question', inputType: 'options', field: 'genero',
-                text: '¿Con qué género te identificas?', delay: 800,
-                options: [
-                    { label: 'Hombre', value: 'Hombre' }, { label: 'Mujer', value: 'Mujer' },
-                    { label: 'No-Binario', value: 'No-Binario' }, { label: 'Transexual', value: 'Transexual' }
-                ]
-            },
-            {
-                id: 'q_educacion', type: 'question', inputType: 'options', field: 'educacion',
-                text: '¿Cuál es tu nivel educativo actual?', delay: 800,
-                options: [
-                    { label: 'Sin Estudios', value: 'Sin Estudios' }, { label: 'Bachiller', value: 'Bachiller' }, 
-                    { label: 'Técnico/Tecnólogo', value: 'Tecnico' }, { label: 'Profesional', value: 'Profesional' }, 
-                    { label: 'Especialista', value: 'Especialista' }, { label: 'Maestría', value: 'Maestria' }, 
-                    { label: 'Doctorado', value: 'Doctorado' }
-                ]
-            },
-            {
-                id: 'q_ocupacion', type: 'question', inputType: 'options', field: 'ocupacion',
-                text: '¿Cuál es tu situación laboral?', delay: 800,
-                options: [
-                    { label: 'Empleado', value: 'Empleado' }, { label: 'Independiente/Empresario', value: 'Independiente' },
-                    { label: 'Trabajo Informal', value: 'Informal' }, { label: 'Ama de Casa', value: 'Ama de Casa' },
-                    { label: 'Cuidador Primario', value: 'Cuidador' }, { label: 'Desempleado', value: 'Desempleado' }, 
-                    { label: 'Jubilado', value: 'Jubilado' }
-                ]
-            },
-            {
-                id: 'q_estado_civil', type: 'question', inputType: 'options', field: 'estado_civil',
-                text: '¿Cuál es tu estado civil?', delay: 800,
-                options: [
-                    { label: 'Soltero/a', value: 'Soltero' }, { label: 'Casado/a / Unión Libre', value: 'Casado' },
-                    { label: 'Separado/a', value: 'Separado' }, { label: 'Viudo/a', value: 'Viudo' }
-                ]
-            },
-            {
-                id: 'q_hijos', type: 'question', inputType: 'number', field: 'hijos',
-                text: '¿Cuántos hijos tienes? (Escribe 0 si no tienes)', delay: 800,
-                validate: (val) => val !== '' && !isNaN(val) && val >= 0 ? null : 'Por favor ingresa un número válido (ej. 0, 1, 2).'
-            },
-            {
-                id: 'q_mascotas', type: 'question', inputType: 'options', field: 'mascotas',
-                text: '¿Tienes mascotas?', delay: 800,
-                options: [ { label: 'Sí', value: 'Si' }, { label: 'No', value: 'No' } ]
-            },
-            { id: 'fase1_intro', type: 'bot', text: '¡Gracias por la información! Vamos a empezar con la FASE 1: Tu Oxígeno Financiero. Recuerda, los datos están seguros.', delay: 1500 },
-            {
-                id: 'q_ahorros', type: 'question', inputType: 'number', field: 'cuentas_ahorro',
-                text: '¿Cuánto dinero disponible tienes actualmente en Cuentas de Ahorro o Corriente? (Valor en {moneda})', delay: 1000
-            },
-            {
-                id: 'q_fondos', type: 'question', inputType: 'number', field: 'fondos_cdt',
-                text: '¿Cuánto capital tienes en Fondos de inversión líquidos o CDTs a muy corto plazo? (Valor en {moneda})', delay: 1000
-            },
-            {
-                id: 'q_efectivo', type: 'question', inputType: 'number', field: 'efectivo',
-                text: 'Y por último en esta fase, ¿cuánto Efectivo disponible tienes a la mano? (Valor en {moneda})', delay: 1000
-            },
-            { id: 'fase2_intro', type: 'bot', text: 'Perfecto. Pasemos a la FASE 2: La Presión Mensual. Es decir, el costo real de tu estilo de vida.', delay: 1500 },
-            {
-                id: 'q_gastos_fijos', type: 'question', inputType: 'number', field: 'gastos_fijos',
-                text: '¿A cuánto ascienden tus Gastos Fijos Mensuales (vivienda, servicios, seguros, educación, etc.) en {moneda}?', delay: 1000
-            },
-            {
-                id: 'q_gastos_variables', type: 'question', inputType: 'number', field: 'gastos_variables',
-                text: 'Aproximadamente, ¿cuáles son tus Gastos Variables Mensuales (salidas, viajes, lujos) en {moneda}?', delay: 1000
-            },
-            {
-                id: 'q_creditos', type: 'question', inputType: 'number', field: 'cuotas_creditos',
-                text: '¿Cuánto pagas mensualmente en Cuotas de Créditos o Hipotecas en {moneda}?', delay: 1000
-            },
-            { id: 'fase3_intro', type: 'bot', text: '¡Ya casi terminamos! Solo faltan 3 preguntas clave para evaluar tu Test de Blindaje de Legado.', delay: 1500 },
-            {
-                id: 'q_legado_1', type: 'question', inputType: 'options', field: 'legado_estilo_vida',
-                text: 'Responde honestamente: ¿Tu familia podría mantener exactamente su mismo estilo de vida si tú llegaras a faltar hoy?', delay: 1000,
-                options: [ { label: 'Sí', value: 1 }, { label: 'No', value: 0 } ]
-            },
-            {
-                id: 'q_legado_2', type: 'question', inputType: 'options', field: 'legado_enfermedad',
-                text: '¿Tienes respaldo financiero garantizado ante una enfermedad catastrófica repentina?', delay: 1000,
-                options: [ { label: 'Sí', value: 1 }, { label: 'No', value: 0 } ]
-            },
-            {
-                id: 'q_legado_3', type: 'question', inputType: 'options', field: 'legado_deudas',
-                text: 'Finalmente, ¿Tus deudas están estructuradas para liquidarse solas en tu ausencia?', delay: 1000,
-                options: [ { label: 'Sí', value: 1 }, { label: 'No', value: 0 } ]
-            }
-        ];
-
-        // --- ESTADO Y DOM ---
-        let currentStepIndex = 0;
-        const userData = {}; 
-        let confirmingState = null;
-        const totalQuestions = chatFlow.filter(s => s.type === 'question').length; 
-        let processCounter = 0; // Para proteger flujos asíncronos si el usuario presiona Atrás
-
-        const chatContainer = document.getElementById('chat-container');
-        const chatForm = document.getElementById('chat-form');
-        const userInput = document.getElementById('user-input');
-        const sendBtn = document.getElementById('send-btn');
-        const optionsContainer = document.getElementById('options-container');
-
-        // --- INICIALIZACIÓN ---
         window.onload = () => {
-            checkCookies();
-            processNextStep();
-        };
-
-        function checkCookies() {
-            const banner = document.getElementById('cookie-banner');
-            const btn = document.getElementById('accept-cookies-btn');
-            if (!localStorage.getItem('cookies_accepted')) {
-                btn.addEventListener('click', () => {
-                    localStorage.setItem('cookies_accepted', 'true');
-                    banner.classList.add('translate-y-full');
-                    setTimeout(() => banner.style.display = 'none', 500);
-                });
-            } else { banner.style.display = 'none'; }
-        }
-
-        function getAnsweredCount() {
-            let count = 0;
-            chatFlow.forEach(step => {
-                if (step.type === 'question' && userData[step.field] !== undefined) {
-                    count++;
-                }
-            });
-            return count;
-        }
-
-        // --- ACTUALIZAR UI ---
-        function updateProgress() {
-            const progressWrapper = document.getElementById('progress-wrapper');
-            const progressBar = document.getElementById('progress-bar');
-            const progressText = document.getElementById('progress-text');
-            
-            progressWrapper.classList.remove('hidden');
-            
-            let displayCount = getAnsweredCount() + 1;
-            if (displayCount > totalQuestions) displayCount = totalQuestions;
-            
-            const percentage = Math.round((displayCount / totalQuestions) * 100);
-            
-            progressText.innerText = `${displayCount} de ${totalQuestions} (${percentage}%)`;
-            progressBar.style.width = `${percentage}%`;
-        }
-
-        function updateBackButtonVisibility() {
-            const backBtn = document.getElementById('back-btn');
-            let firstQIndex = 0;
-            while(firstQIndex < chatFlow.length && chatFlow[firstQIndex].type !== 'question') {
-                firstQIndex++;
-            }
-            if (currentStepIndex > firstQIndex) {
-                backBtn.classList.remove('hidden');
-            } else {
-                backBtn.classList.add('hidden');
-            }
-        }
-
-        // --- FUNCIONALIDAD: RETROCEDER ---
-        function removeStepsFromDOM(fromIndex) {
-            const elements = chatContainer.querySelectorAll('[data-step]');
-            elements.forEach(el => {
-                if (parseInt(el.getAttribute('data-step')) >= fromIndex) {
-                    el.remove();
-                }
-            });
-            // Eliminar indicadores de escritura huerfanos si los hay
-            const typing = document.querySelector('.typing-indicator');
-            if (typing) {
-                const parent = typing.closest('[data-step]');
-                if(parent) parent.remove();
-            }
-        }
-
-        function goBack() {
-            if (currentStepIndex === 0) return;
-
-            // Si está confirmando una ciudad/país, simplemente cancelar la confirmación
-            if (confirmingState) {
-                confirmingState = null;
-                removeStepsFromDOM(currentStepIndex); 
-                enableInput('text');
-                return;
-            }
-
-            // Encontrar el índice de la PREGUNTA anterior
-            let prevQuestionIndex = currentStepIndex - 1;
-            while (prevQuestionIndex >= 0 && chatFlow[prevQuestionIndex].type !== 'question') {
-                prevQuestionIndex--;
-            }
-
-            if (prevQuestionIndex < 0) return; 
-
-            // 1. Borrar elementos del DOM a partir de ese índice
-            removeStepsFromDOM(prevQuestionIndex);
-
-            // 2. Borrar de la memoria la respuesta anterior para poder re-preguntarla
-            const stepToClear = chatFlow[prevQuestionIndex];
-            if (stepToClear && stepToClear.field && userData[stepToClear.field] !== undefined) {
-                delete userData[stepToClear.field];
-            }
-
-            // 3. Actualizar el estado interno
-            currentStepIndex = prevQuestionIndex;
-            
-            // 4. Re-lanzar el ciclo
-            processNextStep();
-        }
-
-        // --- MOTOR DEL CHAT ---
-        async function processNextStep() {
-            if (currentStepIndex >= chatFlow.length) return finishChat();
-
-            const currentProcess = ++processCounter; // Control de asincronía
-            const step = chatFlow[currentStepIndex];
-            
-            let textToDisplay = step.text;
-            if (userData.nombres) textToDisplay = textToDisplay.replaceAll('{nombres}', userData.nombres);
-            if (userData.moneda) textToDisplay = textToDisplay.replaceAll('{moneda}', userData.moneda);
-            else textToDisplay = textToDisplay.replaceAll('{moneda}', 'tu moneda local'); 
-
-            const typingId = showTypingIndicator(currentStepIndex);
-            scrollToBottom();
-            
-            await new Promise(resolve => setTimeout(resolve, step.delay));
-            
-            // Si el usuario presionó Atrás durante la pausa, se aborta este proceso
-            if (currentProcess !== processCounter) return;
-
-            removeTypingIndicator(typingId);
-            addBotMessage(textToDisplay, currentStepIndex);
-            scrollToBottom();
-
-            if (step.type === 'bot') {
-                currentStepIndex++;
-                processNextStep();
-            } else {
-                updateProgress(); 
-                enableInput(step.inputType, step.options);
-            }
-        }
-
-        function enableInput(type, options = null) {
-            updateBackButtonVisibility();
-
-            if (type === 'options' || options) {
-                chatForm.classList.add('hidden');
-                chatForm.classList.remove('flex');
-                optionsContainer.classList.remove('hidden');
-                optionsContainer.classList.add('flex');
-                
-                optionsContainer.innerHTML = ''; 
-                
-                options.forEach(opt => {
-                    const btn = document.createElement('button');
-                    btn.className = 'bg-slate-100 text-slate-700 hover:bg-emerald-100 hover:text-emerald-800 border border-slate-300 rounded-full py-2 px-5 font-semibold transition-colors text-sm';
-                    btn.innerText = opt.label;
-                    btn.onclick = (e) => {
-                        e.preventDefault();
-                        handleUserResponse(opt.value, opt.label);
-                    };
-                    optionsContainer.appendChild(btn);
-                });
-            } else {
-                optionsContainer.classList.add('hidden');
-                optionsContainer.classList.remove('flex');
-                chatForm.classList.remove('hidden');
-                chatForm.classList.add('flex');
-                
-                userInput.type = type === 'number' ? 'number' : (type === 'email' ? 'email' : 'text');
-                userInput.disabled = false;
-                sendBtn.disabled = false;
-                userInput.focus();
-            }
-        }
-
-        function disableInput() {
-            userInput.value = '';
-            userInput.disabled = true;
-            sendBtn.disabled = true;
-            optionsContainer.classList.add('hidden');
-            optionsContainer.classList.remove('flex');
-            chatForm.classList.remove('hidden');
-            chatForm.classList.add('flex');
-            
-            // Ocultamos el botón de retroceso mientras el bot piensa para evitar doble clicks locos
-            document.getElementById('back-btn').classList.add('hidden');
-        }
-
-        chatForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const val = userInput.value.trim();
-            if (!val) return;
-            handleUserResponse(val, val);
-        });
-
-        function handleUserResponse(actualValue, displayText) {
-            if (confirmingState) {
-                if (actualValue === 'si') {
-                    userData[confirmingState.field] = confirmingState.proposedValue;
-                    if (confirmingState.field === 'pais') {
-                        userData.moneda = currencyMap[confirmingState.proposedValue] || 'USD';
-                    }
-                    addUserMessage(displayText, currentStepIndex);
-                    confirmingState = null;
-                    disableInput();
-                    currentStepIndex++;
-                    processNextStep();
-                } else {
-                    addUserMessage(displayText, currentStepIndex);
-                    addBotMessage("Entendido. Por favor, escribe el nombre completo y sin abreviaciones:", currentStepIndex);
-                    confirmingState = null;
-                    enableInput('text');
-                }
-                return;
-            }
-
-            const currentStep = chatFlow[currentStepIndex];
-
-            if (currentStep.validate) {
-                const error = currentStep.validate(actualValue);
-                if (error) {
-                    addUserMessage(displayText, currentStepIndex);
-                    addBotMessage(error, currentStepIndex);
-                    userInput.value = ''; 
-                    scrollToBottom();
-                    return;
-                }
-            }
-
-            if (currentStep.process) {
-                const result = currentStep.process(actualValue);
-                if (result.requiresConfirmation) {
-                    addUserMessage(displayText, currentStepIndex);
-                    confirmingState = { field: currentStep.field, proposedValue: result.proposedValue };
-                    addBotMessage(`¿Te refieres a ${result.proposedValue}?`, currentStepIndex);
-                    enableInput('options', [{label: 'Sí', value: 'si'}, {label: 'No, escribir de nuevo', value: 'no'}]);
-                    scrollToBottom();
-                    return;
-                } else {
-                    actualValue = result.value;
-                    displayText = actualValue; 
-                }
-            }
-
-            userData[currentStep.field] = actualValue;
-            
-            if (currentStep.field === 'pais' && !userData.moneda) {
-                 userData.moneda = currencyMap[actualValue] || 'USD';
-            }
-            if (currentStep.field === 'apellidos') {
-                userData.nombre = `${userData.nombres} ${userData.apellidos}`; 
-            }
-
-            addUserMessage(displayText, currentStepIndex);
-            disableInput();
-
-            if (currentStep.field === 'acepta_politica' && actualValue === 'no') {
-                setTimeout(() => {
-                    addBotMessage("Entiendo perfectamente. Tus datos registrados hasta este momento han sido borrados de la memoria y no serán almacenados. ¡Hasta pronto!", currentStepIndex);
-                    for (let key in userData) delete userData[key];
-                    scrollToBottom();
-                }, 800);
-                return; 
-            }
-
-            currentStepIndex++;
-            processNextStep();
-        }
-
-        // --- RENDERIZADO VISUAL ---
-        function addBotMessage(text, stepIdx) {
-            const html = `
-                <div data-step="${stepIdx}" class="flex items-start gap-3 md:gap-4 w-full md:w-4/5 fade-in-up">
-                    <div class="flex-shrink-0">
-                        <img src="kelly.png" alt="Kelly" class="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-sm" onerror="this.src='https://ui-avatars.com/api/?name=K&background=0D8BCA&color=fff'">
-                    </div>
-                    <div class="bg-white border border-slate-100 shadow-sm p-3 md:p-4 rounded-2xl rounded-tl-none text-slate-700 leading-relaxed text-sm md:text-base">
-                        <p>${text}</p>
-                    </div>
-                </div>`;
-            chatContainer.insertAdjacentHTML('beforeend', html);
-        }
-
-        function addUserMessage(text, stepIdx) {
-            const html = `
-                <div data-step="${stepIdx}" class="flex items-start gap-3 md:gap-4 w-full md:w-4/5 ml-auto flex-row-reverse fade-in-up">
-                    <div class="flex-shrink-0">
-                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center font-bold text-slate-500">
-                            ${userData.nombres ? userData.nombres.charAt(0).toUpperCase() : 'Tú'}
-                        </div>
-                    </div>
-                    <div class="bg-slate-900 text-white shadow-md p-3 md:p-4 rounded-2xl rounded-tr-none leading-relaxed text-sm md:text-base">
-                        <p>${text}</p>
-                    </div>
-                </div>`;
-            chatContainer.insertAdjacentHTML('beforeend', html);
-        }
-
-        function showTypingIndicator(stepIdx) {
-            const id = 'typing-' + Date.now();
-            const html = `
-                <div id="${id}" data-step="${stepIdx}" class="flex items-start gap-3 md:gap-4 w-4/5 fade-in-up">
-                    <div class="flex-shrink-0">
-                        <img src="kelly.png" alt="Kelly" class="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-sm" onerror="this.src='https://ui-avatars.com/api/?name=K&background=0D8BCA&color=fff'">
-                    </div>
-                    <div class="bg-white border border-slate-100 shadow-sm p-3 md:p-4 rounded-2xl rounded-tl-none typing-indicator flex items-center h-12">
-                        <span></span><span></span><span></span>
-                    </div>
-                </div>`;
-            chatContainer.insertAdjacentHTML('beforeend', html);
-            return id;
-        }
-
-        function removeTypingIndicator(id) {
-            const el = document.getElementById(id);
-            if (el) el.remove();
-        }
-
-        function scrollToBottom() {
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
-        // --- FINALIZAR ---
-        async function finishChat() {
-            addBotMessage("¡Listo! Estoy estructurando tu información y calculando tu nivel de Inmunidad Patrimonial... Dame un segundo.", currentStepIndex);
-            scrollToBottom();
-            showTypingIndicator(currentStepIndex);
-
+            // Simulamos un pequeño retraso para darle emoción y procesar los datos
             setTimeout(() => {
-                console.log("Datos capturados:", userData);
-                localStorage.setItem('temp_inmunidad_data', JSON.stringify(userData));
-                window.location.href = 'r_inmunidad_patrimonial.html';
-            }, 3000);
-        }
+                // 1. Obtener datos (En producción vendrán de la API/Base de datos)
+                // Por ahora, leemos el localStorage que guardamos en index.html
+                const rawData = localStorage.getItem('temp_inmunidad_data');
+                
+                if (!rawData) {
+                    // Si alguien entra directo a esta página sin pasar por el index
+                    document.getElementById('loading-state').innerHTML = `
+                        <h2 class="text-2xl font-bold text-rose-600 mb-2">Faltan Datos</h2>
+                        <p class="text-slate-600 mb-4">No pudimos encontrar tu información de diagnóstico.</p>
+                        <a href="index.html" class="text-emerald-600 font-bold underline">Volver al inicio</a>
+                    `;
+                    return;
+                }
+
+                const data = JSON.parse(rawData);
+
+                // 2. Realizar Cálculos
+                const totalA = Number(data.cuentas_ahorro) + Number(data.fondos_cdt) + Number(data.efectivo);
+                const totalB = Number(data.gastos_fijos) + Number(data.gastos_variables) + Number(data.cuotas_creditos);
+                
+                // Evitar división por cero
+                const mesesInmunidad = totalB > 0 ? (totalA / totalB).toFixed(1) : (totalA > 0 ? "+99" : "0.0");
+                const mesesNum = parseFloat(mesesInmunidad);
+
+                // Evaluar Gobernanza (Colores y Mensajes)
+                let bgColorClass, statusText, statusMessage, dotColor;
+                
+                if (mesesNum <= 3) {
+                    // Rojo: Vulnerabilidad
+                    bgColorClass = 'bg-rose-600';
+                    dotColor = 'bg-rose-300';
+                    statusText = 'Vulnerabilidad Total';
+                    statusMessage = 'No tienes un patrimonio, tienes un flujo de caja prestado. Si tu ingreso se detiene, tu estilo de vida colapsa en 90 días. Eres un "rehén de lujo".';
+                } else if (mesesNum <= 12) {
+                    // Amarillo: Alerta
+                    bgColorClass = 'bg-amber-500';
+                    dotColor = 'bg-amber-200';
+                    statusText = 'Zona de Alerta';
+                    statusMessage = 'Tienes algo de oxígeno, pero cualquier imprevisto técnico o de salud grave evaporará tus ahorros. Tu legado aún no está blindado.';
+                } else {
+                    // Verde: Gobernanza
+                    bgColorClass = 'bg-emerald-600';
+                    dotColor = 'bg-emerald-300';
+                    statusText = 'Gobernanza Inicial';
+                    statusMessage = 'Tienes la base. Ahora el reto no es ahorrar, es blindar y multiplicar para que este número nunca baje, pase lo que pase con el gobierno o tu salud.';
+                }
+
+                // Evaluar Legado
+                const legadoScore = Number(data.legado_estilo_vida) + Number(data.legado_enfermedad) + Number(data.legado_deudas);
+                const legadoText = legadoScore === 3 ? 'Blindaje Completo' : 'Blindaje Insuficiente';
+                const legadoColor = legadoScore === 3 ? 'text-emerald-400 border-emerald-400/30' : 'text-amber-400 border-amber-400/30';
+
+                // 3. Pintar en el DOM
+                document.getElementById('res-nombre').innerText = data.nombre;
+                
+                // Tarjeta Principal
+                document.getElementById('res-meses').innerText = mesesInmunidad;
+                document.getElementById('res-estado').innerText = statusText;
+                document.getElementById('res-mensaje-estado').innerText = statusMessage;
+                
+                const cardHeader = document.getElementById('card-header');
+                cardHeader.classList.remove('bg-slate-800');
+                cardHeader.classList.add(bgColorClass);
+                
+                const statusDot = document.getElementById('status-dot');
+                statusDot.classList.remove('bg-slate-400');
+                statusDot.classList.add(dotColor);
+
+                // Valores Fase 1
+                document.getElementById('val-ahorro').innerText = formatMoney(data.cuentas_ahorro);
+                document.getElementById('val-fondos').innerText = formatMoney(data.fondos_cdt);
+                document.getElementById('val-efectivo').innerText = formatMoney(data.efectivo);
+                document.getElementById('total-a').innerText = formatMoney(totalA);
+
+                // Valores Fase 2
+                document.getElementById('val-fijos').innerText = formatMoney(data.gastos_fijos);
+                document.getElementById('val-variables').innerText = formatMoney(data.gastos_variables);
+                document.getElementById('val-creditos').innerText = formatMoney(data.cuotas_creditos);
+                document.getElementById('total-b').innerText = formatMoney(totalB);
+
+                // Valores Fase 3 (Legado)
+                document.getElementById('legado-1').innerHTML = getYesNo(data.legado_estilo_vida);
+                document.getElementById('legado-2').innerHTML = getYesNo(data.legado_enfermedad);
+                document.getElementById('legado-3').innerHTML = getYesNo(data.legado_deudas);
+                
+                const badge = document.getElementById('legado-badge');
+                badge.innerText = legadoText;
+                badge.className = `inline-block px-4 py-2 rounded-lg font-bold text-sm bg-slate-800 border ${legadoColor}`;
+
+                // Iniciar Gráfico de Gastos
+                const ctx = document.getElementById('gastosChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Fijos', 'Variables', 'Créditos'],
+                        datasets: [{
+                            data: [Number(data.gastos_fijos), Number(data.gastos_variables), Number(data.cuotas_creditos)],
+                            backgroundColor: ['#1e293b', '#94a3b8', '#f43f5e'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        cutout: '70%',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false }, tooltip: { enabled: true } }
+                    }
+                });
+
+                // 4. Transición de UI (Ocultar carga, mostrar resultados)
+                document.getElementById('loading-state').style.display = 'none';
+                document.getElementById('results-container').classList.remove('hidden');
+
+            }, 1500); // 1.5 segundos de carga simulada
+        };
     </script>
 </body>
 </html>
