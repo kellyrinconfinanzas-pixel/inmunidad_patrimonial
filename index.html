@@ -139,7 +139,7 @@
 
         const cityMap = {
             'bq': 'BARRANQUILLA', 'baq': 'BARRANQUILLA', 'quilla': 'BARRANQUILLA', 'barranquilla': 'BARRANQUILLA',
-            'bsas': 'BUENOS AIRES', 'buenos aires': 'BUENOS AIRES',
+            'bsas': 'BUENOS AIRES', 'baires': 'BUENOS AIRES', 'buenos aires': 'BUENOS AIRES',
             'bog': 'BOGOTÁ', 'bogota': 'BOGOTÁ', 'bogotá': 'BOGOTÁ',
             'med': 'MEDELLÍN', 'medellin': 'MEDELLÍN', 'medellín': 'MEDELLÍN',
             'cal': 'CALI', 'cali': 'CALI',
@@ -166,24 +166,43 @@
             },
             { 
                 id: 'q_apellidos', type: 'question', inputType: 'text', field: 'apellidos',
-                text: 'Perfecto {nombres}. ¿Y cuáles son tus apellidos?', delay: 800,
+                text: 'Perfecto. ¿Y cuáles son tus apellidos?', delay: 800,
                 validate: (val) => val.trim().length >= 2 ? null : 'Por favor, escribe un apellido válido.'
+            },
+            // NUEVO: Presentación de Kelly
+            { 
+                id: 'bot_presentacion', type: 'bot', 
+                text: 'Hola {nombres}, yo soy Kelly Rincón Pastrana, Asesora y Estratega en Blindaje Patrimonial. Mi misión es ayudar a profesionales de altos ingresos y empresarios a proteger, estructurar y multiplicar su capital de forma segura.', 
+                delay: 2000 
+            },
+            // NUEVO: Política de Datos
+            {
+                id: 'q_politica', type: 'question', inputType: 'options', field: 'acepta_politica',
+                text: 'Antes de continuar con tus datos, ¿estás de acuerdo en que sean tratados de acuerdo a nuestra <a href="politica_datos.html" target="_blank" class="text-emerald-600 underline font-semibold">Política de Tratamiento de Datos</a>?', 
+                delay: 1500,
+                options: [ { label: 'Sí, acepto', value: 'si' }, { label: 'No acepto', value: 'no' } ]
             },
             { 
                 id: 'q_email', type: 'question', inputType: 'email', field: 'email',
-                text: 'Mucho gusto. ¿A qué correo electrónico enviaré tu reporte detallado al finalizar?', delay: 800
+                text: '¡Excelente! ¿A qué correo electrónico enviaré tu reporte detallado al finalizar?', delay: 800
             },
             { id: 'bot_demograficos', type: 'bot', text: 'Para contextualizar mejor tus resultados financieros, necesito unos breves datos sobre ti.', delay: 1500 },
             { 
                 id: 'q_pais', type: 'question', inputType: 'text', field: 'pais',
                 text: '¿De qué país nos visitas?', delay: 800,
+                validate: (val) => val.trim().length >= 3 ? null : 'Por favor, escribe el nombre de tu país más completo.',
                 process: (val) => {
                     let cleanVal = val.trim().toLowerCase();
+                    // Coincidencia exacta (ej: 'col')
                     if (countryMap[cleanVal]) {
-                        if (cleanVal !== countryMap[cleanVal].toLowerCase()) {
-                            return { requiresConfirmation: true, proposedValue: countryMap[cleanVal] };
+                        return { requiresConfirmation: true, proposedValue: countryMap[cleanVal] };
+                    }
+                    // Coincidencia parcial (ej: 'colo' -> 'COLOMBIA')
+                    if (cleanVal.length >= 3) {
+                        const found = Object.values(countryMap).find(country => country.toLowerCase().startsWith(cleanVal));
+                        if (found && found.toLowerCase() !== cleanVal) {
+                            return { requiresConfirmation: true, proposedValue: found };
                         }
-                        return { value: countryMap[cleanVal] };
                     }
                     return { value: val.trim().toUpperCase() };
                 }
@@ -191,13 +210,19 @@
             { 
                 id: 'q_ciudad', type: 'question', inputType: 'text', field: 'ciudad',
                 text: '¿Y en qué ciudad resides?', delay: 800,
+                validate: (val) => val.trim().length >= 3 ? null : 'Por favor, escribe el nombre de tu ciudad más completo para poder identificarla.',
                 process: (val) => {
                     let cleanVal = val.trim().toLowerCase();
+                    // Coincidencia exacta (ej: 'bq' o 'bar') si estuviera en las keys
                     if (cityMap[cleanVal]) {
-                        if (cleanVal !== cityMap[cleanVal].toLowerCase()) {
-                            return { requiresConfirmation: true, proposedValue: cityMap[cleanVal] };
+                        return { requiresConfirmation: true, proposedValue: cityMap[cleanVal] };
+                    }
+                    // Coincidencia parcial (ej: 'bar' -> 'BARRANQUILLA')
+                    if (cleanVal.length >= 3) {
+                        const found = Object.values(cityMap).find(city => city.toLowerCase().startsWith(cleanVal));
+                        if (found && found.toLowerCase() !== cleanVal) {
+                            return { requiresConfirmation: true, proposedValue: found };
                         }
-                        return { value: cityMap[cleanVal] };
                     }
                     return { value: val.trim().toUpperCase() };
                 }
@@ -284,7 +309,7 @@
         // --- ESTADO Y DOM ---
         let currentStepIndex = 0;
         const userData = {}; 
-        let confirmingState = null; // Para manejar la pregunta de "¿Te refieres a...?"
+        let confirmingState = null;
 
         const chatContainer = document.getElementById('chat-container');
         const chatForm = document.getElementById('chat-form');
@@ -389,7 +414,7 @@
         });
 
         function handleUserResponse(actualValue, displayText) {
-            // 1. Verificar si estamos esperando una confirmación de autocorrector (Ej: País)
+            // 1. Verificar si estamos esperando una confirmación de autocorrector
             if (confirmingState) {
                 if (actualValue === 'si') {
                     userData[confirmingState.field] = confirmingState.proposedValue;
@@ -403,7 +428,7 @@
                     processNextStep();
                 } else {
                     addUserMessage(displayText);
-                    addBotMessage("Entendido. Por favor, escríbelo de nuevo completo y sin abreviaciones:");
+                    addBotMessage("Entendido. Por favor, escribe el nombre completo y sin abreviaciones:");
                     confirmingState = null;
                     enableInput('text');
                 }
@@ -418,7 +443,7 @@
                 if (error) {
                     addUserMessage(displayText);
                     addBotMessage(error);
-                    userInput.value = ''; // limpiar pero no avanzar
+                    userInput.value = ''; 
                     scrollToBottom();
                     return;
                 }
@@ -436,26 +461,37 @@
                     return;
                 } else {
                     actualValue = result.value;
-                    displayText = actualValue; // Mostrar en mayúsculas en el chat
+                    displayText = actualValue; 
                 }
             }
 
             // 4. Guardado normal
             userData[currentStep.field] = actualValue;
             
-            // Si el país se ingresó sin abreviación, asignar moneda aquí
             if (currentStep.field === 'pais' && !userData.moneda) {
                  userData.moneda = currencyMap[actualValue] || 'USD';
             }
 
-            // Para la UI y avanzar
-            // Si combinamos el nombre para los resultados futuros:
             if (currentStep.field === 'apellidos') {
-                userData.nombre = `${userData.nombres} ${userData.apellidos}`; // Guardamos el nombre completo para el HTML de resultados
+                userData.nombre = `${userData.nombres} ${userData.apellidos}`; 
             }
 
+            // Mostrar el mensaje en la UI
             addUserMessage(displayText);
             disableInput();
+
+            // 5. Verificar Política de Datos (Botón de pánico)
+            if (currentStep.field === 'acepta_politica' && actualValue === 'no') {
+                setTimeout(() => {
+                    addBotMessage("Entiendo perfectamente. Tus datos registrados hasta este momento han sido borrados de la memoria y no serán almacenados. ¡Hasta pronto!");
+                    // Limpiamos los datos de la memoria RAM
+                    for (let key in userData) delete userData[key];
+                    scrollToBottom();
+                }, 800);
+                return; // Cortamos el flujo aquí, el bot "muere".
+            }
+
+            // Avanzar al siguiente paso
             currentStepIndex++;
             processNextStep();
         }
