@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Privado | Kelly-Finanzas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fade-in-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans h-screen flex items-center justify-center relative overflow-hidden">
+
+    <!-- Círculos decorativos de fondo -->
+    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-emerald-200 rounded-full blur-3xl opacity-30"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-blue-200 rounded-full blur-3xl opacity-30"></div>
+
+    <div class="w-full max-w-md px-6 z-10 fade-in-up">
+        
+        <!-- Tarjeta de Login -->
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 md:p-10 relative overflow-hidden">
+            
+            <!-- Barra superior decorativa -->
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-400 to-emerald-600"></div>
+
+            <div class="text-center mb-8">
+                <img src="kelly.png" alt="Kelly Rincón" class="w-20 h-20 mx-auto object-contain drop-shadow-md mb-4" onerror="this.src='https://ui-avatars.com/api/?name=K&background=0D8BCA&color=fff'">
+                <h1 class="text-2xl font-bold text-slate-900">Acceso Administrativo</h1>
+                <p class="text-sm text-slate-500 mt-1">Portal de gestión de Inmunidad Patrimonial</p>
+            </div>
+
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label for="password" class="block text-sm font-semibold text-slate-700 mb-2">Contraseña de Acceso</label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            class="w-full bg-slate-50 border border-slate-300 text-slate-900 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                            placeholder="••••••••••••" 
+                            required
+                        >
+                        <!-- Botón para ver contraseña -->
+                        <button type="button" id="toggle-password" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-emerald-600 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                        </button>
+                    </div>
+                    <p id="error-message" class="text-rose-500 text-xs mt-2 hidden">Contraseña incorrecta. Intenta de nuevo.</p>
+                </div>
+
+                <button type="submit" id="submit-btn" class="w-full bg-slate-900 hover:bg-emerald-600 text-white font-bold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition-all flex justify-center items-center gap-2">
+                    <span>Ingresar al Portal</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                </button>
+            </form>
+            
+            <div class="mt-8 text-center">
+                <a href="index.html" class="text-sm text-slate-400 hover:text-emerald-600 transition-colors flex items-center justify-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    Volver a la calculadora
+                </a>
+            </div>
+        </div>
+
+        <div class="text-center mt-6">
+            <p class="text-xs text-slate-400">Plataforma segura protegida por encriptación.</p>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const passwordInput = document.getElementById('password');
+        const togglePasswordBtn = document.getElementById('toggle-password');
+        const errorMessage = document.getElementById('error-message');
+        const submitBtn = document.getElementById('submit-btn');
+
+        // Toggle para mostrar/ocultar contraseña
+        togglePasswordBtn.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Cambiar el ícono (Ojo cerrado/abierto)
+            if (type === 'text') {
+                togglePasswordBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>';
+            } else {
+                togglePasswordBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>';
+            }
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Estado de carga
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Verificando...';
+            submitBtn.disabled = true;
+            errorMessage.classList.add('hidden');
+
+            const pwd = passwordInput.value;
+
+            try {
+                /*
+                ===========================================================
+                CÓDIGO REAL PARA VERCEL (Se usará al configurar el backend)
+                ===========================================================
+                const response = await fetch('/api/authenticate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: pwd })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.token) {
+                    // Guardamos el token seguro en sessionStorage
+                    sessionStorage.setItem('kelly_admin_token', data.token);
+                    window.location.href = 'portal.html';
+                } else {
+                    throw new Error("Contraseña incorrecta");
+                }
+                */
+
+                // SIMULACIÓN PARA ENTORNO LOCAL (Contraseña temporal: kelly2026)
+                setTimeout(() => {
+                    if (pwd === 'kelly2026') {
+                        // Simulamos un token de acceso exitoso
+                        sessionStorage.setItem('kelly_admin_token', 'token_simulado_123');
+                        window.location.href = 'portal.html';
+                    } else {
+                        // Error de contraseña
+                        errorMessage.classList.remove('hidden');
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.disabled = false;
+                        passwordInput.value = '';
+                        passwordInput.focus();
+                    }
+                }, 1000);
+
+            } catch (error) {
+                errorMessage.innerText = "Error de conexión. Intenta nuevamente.";
+                errorMessage.classList.remove('hidden');
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
