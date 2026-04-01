@@ -683,13 +683,39 @@
         async function finishChat() {
             addBotMessage("¡Listo! Estoy estructurando tu información y calculando tu nivel de Inmunidad Patrimonial... Dame un segundo.", currentStepIndex);
             scrollToBottom();
-            showTypingIndicator(currentStepIndex);
+            const typingId = showTypingIndicator(currentStepIndex);
 
-            setTimeout(() => {
-                console.log("Datos capturados:", userData);
+            try {
+                // LLAMADA REAL A LA API DE VERCEL
+                const response = await fetch('/api/enviar-reporte-personal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+                
+                const data = await response.json();
+                removeTypingIndicator(typingId);
+                
+                if(data.success) {
+                    // Guardamos la data temporalmente para mostrarla al instante en r_inmunidad_patrimonial.html
+                    localStorage.setItem('temp_inmunidad_data', JSON.stringify(userData));
+                    // Guardamos el ID real de la base de datos
+                    localStorage.setItem('reporte_id', data.reportId);
+                    window.location.href = 'r_inmunidad_patrimonial.html';
+                } else {
+                    throw new Error(data.message || "Error en la respuesta de la API");
+                }
+            } catch (error) {
+                console.error("Error al procesar:", error);
+                removeTypingIndicator(typingId);
+                addBotMessage("Hubo un pequeño problema de conexión guardando el reporte, pero he logrado calcular tus resultados. Redirigiendo...", currentStepIndex);
+                
+                // Fallback de seguridad: mostrar resultados aunque falle la conexión a internet
                 localStorage.setItem('temp_inmunidad_data', JSON.stringify(userData));
-                window.location.href = 'r_inmunidad_patrimonial.html';
-            }, 3000);
+                setTimeout(() => {
+                    window.location.href = 'r_inmunidad_patrimonial.html';
+                }, 2500);
+            }
         }
     </script>
 </body>
