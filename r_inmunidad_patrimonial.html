@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tus Resultados | Inmunidad Patrimonial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Incluir Chart.js para el gráfico circular -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .fade-in { animation: fadeIn 0.8s ease-out forwards; opacity: 0; }
+        .slide-up { animation: slideUp 0.6s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        
+        /* Retrasos para cascada de animaciones */
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Navegación Superior -->
+    <nav class="bg-slate-900 text-white p-4 shadow-md sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="kelly.png" alt="Kelly Avatar" class="w-12 h-12 object-contain drop-shadow-sm" onerror="this.src='https://ui-avatars.com/api/?name=Kelly+Finanzas&background=0D8BCA&color=fff'">
+                <div>
+                    <h1 class="font-bold text-lg text-emerald-400 leading-tight">Inmunidad Patrimonial</h1>
+                    <p class="text-xs text-slate-300">Diagnóstico Confidencial</p>
+                </div>
+            </div>
+            <!-- Botón para descargar PDF (Simulado por ahora) -->
+            <button onclick="window.print()" class="hidden md:flex items-center gap-2 bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                Guardar PDF
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-grow p-4 md:p-8">
+        <div class="max-w-4xl mx-auto space-y-6">
+
+            <!-- Mensaje de Carga Inicial -->
+            <div id="loading-state" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-12 text-center">
+                <div class="w-16 h-16 border-4 border-slate-200 border-t-emerald-500 rounded-full animate-spin mx-auto mb-6"></div>
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Calculando tu Inmunidad...</h2>
+                <p class="text-slate-500">Procesando fases y evaluando vulnerabilidad.</p>
+            </div>
+
+            <!-- Contenedor Principal de Resultados (Oculto hasta calcular) -->
+            <div id="results-container" class="hidden space-y-6">
+                
+                <!-- Encabezado de Resultados -->
+                <div class="text-center slide-up">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2">Hola, <span id="res-nombre" class="text-emerald-600">Usuario</span></h2>
+                    <p class="text-lg text-slate-600 max-w-2xl mx-auto">Este es tu diagnóstico ejecutivo. Recuerda: los datos no hieren el ego, la realidad sí.</p>
+                </div>
+
+                <!-- Tarjeta Principal: Meses de Inmunidad -->
+                <div class="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden slide-up delay-100">
+                    <div id="card-header" class="p-6 md:p-10 text-center text-white bg-slate-800 relative overflow-hidden transition-colors duration-500">
+                        <!-- Círculo decorativo -->
+                        <div class="absolute -right-20 -top-20 w-64 h-64 bg-white opacity-5 rounded-full blur-2xl"></div>
+                        
+                        <p class="text-sm md:text-base font-medium opacity-90 mb-2 uppercase tracking-wider">Tu Número de Inmunidad</p>
+                        <div class="flex items-baseline justify-center gap-2 mb-2">
+                            <span id="res-meses" class="text-6xl md:text-8xl font-black tracking-tighter">0</span>
+                            <span class="text-xl md:text-3xl font-semibold opacity-80">Meses</span>
+                        </div>
+                        
+                        <div class="inline-flex items-center gap-2 px-4 py-2 bg-black bg-opacity-20 rounded-full backdrop-blur-sm mt-4">
+                            <div id="status-dot" class="w-3 h-3 rounded-full bg-slate-400 animate-pulse"></div>
+                            <span id="res-estado" class="font-bold text-sm md:text-base">Calculando...</span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 md:p-8 bg-white text-center">
+                        <p id="res-mensaje-estado" class="text-slate-700 md:text-lg max-w-3xl mx-auto leading-relaxed font-medium">
+                            Análisis en proceso.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Grid de Detalles (Fase 1 y 2) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 slide-up delay-200">
+                    
+                    <!-- Fase 1: Oxígeno -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col h-full">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" /></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800">Fase 1: Oxígeno Financiero</h3>
+                                <p class="text-xs text-slate-500">Capital líquido disponible (< 30 días)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4 flex-grow">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-600">Cuentas ahorro/corriente</span>
+                                <span id="val-ahorro" class="font-semibold text-slate-800">$0</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-600">Fondos o CDTs líquidos</span>
+                                <span id="val-fondos" class="font-semibold text-slate-800">$0</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-600">Efectivo disponible</span>
+                                <span id="val-efectivo" class="font-semibold text-slate-800">$0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-end">
+                            <span class="text-sm font-bold text-slate-400 uppercase">Total (A)</span>
+                            <span id="total-a" class="text-2xl font-bold text-blue-600">$0</span>
+                        </div>
+                    </div>
+
+                    <!-- Fase 2: Presión -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col h-full">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                            <div class="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center text-rose-500 shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" /></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-800">Fase 2: Presión Mensual</h3>
+                                <p class="text-xs text-slate-500">Costo real de tu estilo de vida</p>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow flex flex-col md:flex-row items-center gap-6">
+                            <!-- Gráfico -->
+                            <div class="w-32 h-32 shrink-0 relative">
+                                <canvas id="gastosChart"></canvas>
+                            </div>
+                            <!-- Leyenda -->
+                            <div class="space-y-3 w-full">
+                                <div class="flex justify-between text-sm items-center">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-2 h-2 rounded-full bg-slate-800"></div>
+                                        <span class="text-slate-600">Fijos</span>
+                                    </div>
+                                    <span id="val-fijos" class="font-semibold text-slate-800">$0</span>
+                                </div>
+                                <div class="flex justify-between text-sm items-center">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-2 h-2 rounded-full bg-slate-400"></div>
+                                        <span class="text-slate-600">Variables</span>
+                                    </div>
+                                    <span id="val-variables" class="font-semibold text-slate-800">$0</span>
+                                </div>
+                                <div class="flex justify-between text-sm items-center">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-2 h-2 rounded-full bg-rose-500"></div>
+                                        <span class="text-slate-600">Créditos</span>
+                                    </div>
+                                    <span id="val-creditos" class="font-semibold text-slate-800">$0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-end">
+                            <span class="text-sm font-bold text-slate-400 uppercase">Total (B)</span>
+                            <span id="total-b" class="text-2xl font-bold text-rose-600">$0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test de Legado -->
+                <div class="bg-slate-900 text-white p-6 md:p-8 rounded-2xl shadow-lg slide-up delay-300 relative overflow-hidden">
+                    <!-- Patrón decorativo -->
+                    <svg class="absolute right-0 top-0 text-slate-800 w-64 h-64 -mt-10 -mr-10 opacity-50 pointer-events-none" fill="currentColor" viewBox="0 0 100 100"><path d="M50 0L100 25L100 75L50 100L0 75L0 25L50 0Z" opacity="0.1"/><path d="M50 10L90 30L90 70L50 90L10 70L10 30L50 10Z" opacity="0.2"/><path d="M50 20L80 35L80 65L50 80L20 65L20 35L50 20Z" opacity="0.3"/></svg>
+                    
+                    <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+                        <div class="md:w-1/3 text-center md:text-left">
+                            <h3 class="text-2xl font-bold text-amber-400 mb-2">Test de Blindaje de Legado</h3>
+                            <p class="text-slate-300 text-sm mb-4">Evaluación de protección familiar e imprevistos.</p>
+                            <div id="legado-badge" class="inline-block px-4 py-2 rounded-lg font-bold text-sm bg-slate-800 border border-slate-700">
+                                Calculando...
+                            </div>
+                        </div>
+                        
+                        <div class="md:w-2/3 space-y-4 w-full">
+                            <div class="flex items-start justify-between gap-4 border-b border-slate-800 pb-3">
+                                <span class="text-slate-200 text-sm">¿Tu familia mantiene su estilo de vida si hoy faltas?</span>
+                                <span id="legado-1" class="font-bold shrink-0 text-emerald-400">Sí</span>
+                            </div>
+                            <div class="flex items-start justify-between gap-4 border-b border-slate-800 pb-3">
+                                <span class="text-slate-200 text-sm">¿Tienes respaldo ante enfermedad catastrófica?</span>
+                                <span id="legado-2" class="font-bold shrink-0 text-rose-400">No</span>
+                            </div>
+                            <div class="flex items-start justify-between gap-4">
+                                <span class="text-slate-200 text-sm">¿Tus deudas se liquidan solas en tu ausencia?</span>
+                                <span id="legado-3" class="font-bold shrink-0 text-emerald-400">Sí</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Llamado a la acción (Kelly) -->
+                <div class="bg-emerald-50 border border-emerald-100 p-6 md:p-8 rounded-2xl flex flex-col md:flex-row items-center gap-6 slide-up delay-400">
+                    <img src="kelly.png" alt="Kelly Rincón" class="w-24 h-24 object-contain drop-shadow-md shrink-0" onerror="this.src='https://ui-avatars.com/api/?name=K&background=0D8BCA&color=fff'">
+                    <div class="text-center md:text-left">
+                        <h4 class="text-xl font-bold text-slate-900 mb-2">¿Tu número fue menor de lo que esperabas?</h4>
+                        <p class="text-slate-700 mb-4 font-medium italic">"El problema no es lo que ganas, sino la falta de estructura."</p>
+                        <a href="https://wa.me/573000000000?text=Hola%20Kelly,%20mi%20resultado%20fue%20menor%20al%20esperado.%20ESTRUCTURA" target="_blank" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+                            Escríbeme con la palabra ESTRUCTURA
+                        </a>
+                        <p class="text-xs text-slate-500 mt-3">Sujeto a disponibilidad de agenda.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-white border-t border-slate-200 py-4 text-center mt-auto">
+        <p class="text-xs text-slate-400">&copy; 2026 Kelly Rincón Pastrana. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // --- LÓGICA DE CÁLCULO ---
+        
+        // Función para formatear moneda
+        const formatMoney = (amount) => {
+            return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(amount);
+        };
+
+        // Función para obtener texto de Sí/No
+        const getYesNo = (val) => String(val) === "1" ? '<span class="text-emerald-400">Sí</span>' : '<span class="text-rose-400">No</span>';
+
+        window.onload = () => {
+            // Simulamos un pequeño retraso para darle emoción y procesar los datos
+            setTimeout(() => {
+                // 1. Obtener datos (En producción vendrán de la API/Base de datos)
+                // Por ahora, leemos el localStorage que guardamos en index.html
+                const rawData = localStorage.getItem('temp_inmunidad_data');
+                
+                if (!rawData) {
+                    // Si alguien entra directo a esta página sin pasar por el index
+                    document.getElementById('loading-state').innerHTML = `
+                        <h2 class="text-2xl font-bold text-rose-600 mb-2">Faltan Datos</h2>
+                        <p class="text-slate-600 mb-4">No pudimos encontrar tu información de diagnóstico.</p>
+                        <a href="index.html" class="text-emerald-600 font-bold underline">Volver al inicio</a>
+                    `;
+                    return;
+                }
+
+                const data = JSON.parse(rawData);
+
+                // 2. Realizar Cálculos
+                const totalA = Number(data.cuentas_ahorro) + Number(data.fondos_cdt) + Number(data.efectivo);
+                const totalB = Number(data.gastos_fijos) + Number(data.gastos_variables) + Number(data.cuotas_creditos);
+                
+                // Evitar división por cero
+                const mesesInmunidad = totalB > 0 ? (totalA / totalB).toFixed(1) : (totalA > 0 ? "+99" : "0.0");
+                const mesesNum = parseFloat(mesesInmunidad);
+
+                // Evaluar Gobernanza (Colores y Mensajes)
+                let bgColorClass, statusText, statusMessage, dotColor;
+                
+                if (mesesNum <= 3) {
+                    // Rojo: Vulnerabilidad
+                    bgColorClass = 'bg-rose-600';
+                    dotColor = 'bg-rose-300';
+                    statusText = 'Vulnerabilidad Total';
+                    statusMessage = 'No tienes un patrimonio, tienes un flujo de caja prestado. Si tu ingreso se detiene, tu estilo de vida colapsa en 90 días. Eres un "rehén de lujo".';
+                } else if (mesesNum <= 12) {
+                    // Amarillo: Alerta
+                    bgColorClass = 'bg-amber-500';
+                    dotColor = 'bg-amber-200';
+                    statusText = 'Zona de Alerta';
+                    statusMessage = 'Tienes algo de oxígeno, pero cualquier imprevisto técnico o de salud grave evaporará tus ahorros. Tu legado aún no está blindado.';
+                } else {
+                    // Verde: Gobernanza
+                    bgColorClass = 'bg-emerald-600';
+                    dotColor = 'bg-emerald-300';
+                    statusText = 'Gobernanza Inicial';
+                    statusMessage = 'Tienes la base. Ahora el reto no es ahorrar, es blindar y multiplicar para que este número nunca baje, pase lo que pase con el gobierno o tu salud.';
+                }
+
+                // Evaluar Legado
+                const legadoScore = Number(data.legado_estilo_vida) + Number(data.legado_enfermedad) + Number(data.legado_deudas);
+                const legadoText = legadoScore === 3 ? 'Blindaje Completo' : 'Blindaje Insuficiente';
+                const legadoColor = legadoScore === 3 ? 'text-emerald-400 border-emerald-400/30' : 'text-amber-400 border-amber-400/30';
+
+                // 3. Pintar en el DOM
+                document.getElementById('res-nombre').innerText = data.nombre;
+                
+                // Tarjeta Principal
+                document.getElementById('res-meses').innerText = mesesInmunidad;
+                document.getElementById('res-estado').innerText = statusText;
+                document.getElementById('res-mensaje-estado').innerText = statusMessage;
+                
+                const cardHeader = document.getElementById('card-header');
+                cardHeader.classList.remove('bg-slate-800');
+                cardHeader.classList.add(bgColorClass);
+                
+                const statusDot = document.getElementById('status-dot');
+                statusDot.classList.remove('bg-slate-400');
+                statusDot.classList.add(dotColor);
+
+                // Valores Fase 1
+                document.getElementById('val-ahorro').innerText = formatMoney(data.cuentas_ahorro);
+                document.getElementById('val-fondos').innerText = formatMoney(data.fondos_cdt);
+                document.getElementById('val-efectivo').innerText = formatMoney(data.efectivo);
+                document.getElementById('total-a').innerText = formatMoney(totalA);
+
+                // Valores Fase 2
+                document.getElementById('val-fijos').innerText = formatMoney(data.gastos_fijos);
+                document.getElementById('val-variables').innerText = formatMoney(data.gastos_variables);
+                document.getElementById('val-creditos').innerText = formatMoney(data.cuotas_creditos);
+                document.getElementById('total-b').innerText = formatMoney(totalB);
+
+                // Valores Fase 3 (Legado)
+                document.getElementById('legado-1').innerHTML = getYesNo(data.legado_estilo_vida);
+                document.getElementById('legado-2').innerHTML = getYesNo(data.legado_enfermedad);
+                document.getElementById('legado-3').innerHTML = getYesNo(data.legado_deudas);
+                
+                const badge = document.getElementById('legado-badge');
+                badge.innerText = legadoText;
+                badge.className = `inline-block px-4 py-2 rounded-lg font-bold text-sm bg-slate-800 border ${legadoColor}`;
+
+                // Iniciar Gráfico de Gastos
+                const ctx = document.getElementById('gastosChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Fijos', 'Variables', 'Créditos'],
+                        datasets: [{
+                            data: [Number(data.gastos_fijos), Number(data.gastos_variables), Number(data.cuotas_creditos)],
+                            backgroundColor: ['#1e293b', '#94a3b8', '#f43f5e'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        cutout: '70%',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false }, tooltip: { enabled: true } }
+                    }
+                });
+
+                // 4. Transición de UI (Ocultar carga, mostrar resultados)
+                document.getElementById('loading-state').style.display = 'none';
+                document.getElementById('results-container').classList.remove('hidden');
+
+            }, 1500); // 1.5 segundos de carga simulada
+        };
+    </script>
+</body>
+</html>
