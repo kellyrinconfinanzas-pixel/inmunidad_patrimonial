@@ -73,7 +73,7 @@
         <div class="w-full md:w-7/12 lg:w-1/2 flex flex-col h-full bg-white relative">
             
             <!-- Cabecera Chat Desktop -->
-            <div class="hidden md:block border-b border-slate-100 p-6 bg-white shadow-sm z-10">
+            <div class="hidden md:block border-b border-slate-100 p-6 bg-white shadow-sm z-10 shrink-0">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
@@ -93,13 +93,24 @@
                 </div>
             </div>
 
+            <!-- NUEVA BARRA DE PROGRESO -->
+            <div id="progress-wrapper" class="w-full bg-white border-b border-slate-100 px-4 md:px-8 py-3 hidden shrink-0 z-10 shadow-sm relative transition-opacity duration-500">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Progreso del Diagnóstico</span>
+                    <span id="progress-text" class="text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-0.5 rounded-full">0 de 0 (0%)</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-700 ease-out" style="width: 0%"></div>
+                </div>
+            </div>
+
             <!-- Área de mensajes -->
             <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 pb-32 md:pb-40 bg-slate-50 md:bg-white relative">
                 <!-- Se inyectan mensajes -->
             </div>
 
             <!-- Área de Input -->
-            <div class="absolute bottom-0 left-0 w-full p-4 bg-white border-t border-slate-200 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)]">
+            <div class="absolute bottom-0 left-0 w-full p-4 bg-white border-t border-slate-200 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)] z-20">
                 <form id="chat-form" class="max-w-2xl mx-auto relative flex items-center gap-2">
                     <input type="text" id="user-input" class="w-full bg-slate-100 border border-slate-300 text-slate-900 rounded-full py-3 px-6 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all disabled:opacity-50" placeholder="Escribe aquí..." autocomplete="off" disabled>
                     <button type="submit" id="send-btn" class="bg-slate-900 hover:bg-emerald-600 text-white rounded-full p-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0" disabled>
@@ -115,7 +126,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="w-full bg-white border-t border-slate-200 py-2 md:py-3 flex flex-col md:flex-row justify-center items-center gap-2 md:gap-8 z-20 px-4 relative shrink-0">
+    <footer class="w-full bg-white border-t border-slate-200 py-2 md:py-3 flex flex-col md:flex-row justify-center items-center gap-2 md:gap-8 z-30 px-4 relative shrink-0">
         <p class="text-xs text-slate-400">&copy; 2026 Todos los derechos reservados.</p>
         <a href="politica_datos.html" class="text-xs text-slate-400 hover:text-emerald-600 transition-colors">Política de Tratamiento de Datos</a>
         <div class="absolute right-4 md:static flex gap-3">
@@ -169,13 +180,11 @@
                 text: 'Perfecto. ¿Y cuáles son tus apellidos?', delay: 800,
                 validate: (val) => val.trim().length >= 2 ? null : 'Por favor, escribe un apellido válido.'
             },
-            // NUEVO: Presentación de Kelly
             { 
                 id: 'bot_presentacion', type: 'bot', 
                 text: 'Hola {nombres}, yo soy Kelly Rincón Pastrana, Asesora y Estratega en Blindaje Patrimonial. Mi misión es ayudar a profesionales de altos ingresos y empresarios a proteger, estructurar y multiplicar su capital de forma segura.', 
                 delay: 2000 
             },
-            // NUEVO: Política de Datos
             {
                 id: 'q_politica', type: 'question', inputType: 'options', field: 'acepta_politica',
                 text: 'Antes de continuar con tus datos, ¿estás de acuerdo en que sean tratados de acuerdo a nuestra <a href="politica_datos.html" target="_blank" class="text-emerald-600 underline font-semibold">Política de Tratamiento de Datos</a>?', 
@@ -193,16 +202,10 @@
                 validate: (val) => val.trim().length >= 3 ? null : 'Por favor, escribe el nombre de tu país más completo.',
                 process: (val) => {
                     let cleanVal = val.trim().toLowerCase();
-                    // Coincidencia exacta (ej: 'col')
-                    if (countryMap[cleanVal]) {
-                        return { requiresConfirmation: true, proposedValue: countryMap[cleanVal] };
-                    }
-                    // Coincidencia parcial (ej: 'colo' -> 'COLOMBIA')
+                    if (countryMap[cleanVal]) return { requiresConfirmation: true, proposedValue: countryMap[cleanVal] };
                     if (cleanVal.length >= 3) {
                         const found = Object.values(countryMap).find(country => country.toLowerCase().startsWith(cleanVal));
-                        if (found && found.toLowerCase() !== cleanVal) {
-                            return { requiresConfirmation: true, proposedValue: found };
-                        }
+                        if (found && found.toLowerCase() !== cleanVal) return { requiresConfirmation: true, proposedValue: found };
                     }
                     return { value: val.trim().toUpperCase() };
                 }
@@ -213,16 +216,10 @@
                 validate: (val) => val.trim().length >= 3 ? null : 'Por favor, escribe el nombre de tu ciudad más completo para poder identificarla.',
                 process: (val) => {
                     let cleanVal = val.trim().toLowerCase();
-                    // Coincidencia exacta (ej: 'bq' o 'bar') si estuviera en las keys
-                    if (cityMap[cleanVal]) {
-                        return { requiresConfirmation: true, proposedValue: cityMap[cleanVal] };
-                    }
-                    // Coincidencia parcial (ej: 'bar' -> 'BARRANQUILLA')
+                    if (cityMap[cleanVal]) return { requiresConfirmation: true, proposedValue: cityMap[cleanVal] };
                     if (cleanVal.length >= 3) {
                         const found = Object.values(cityMap).find(city => city.toLowerCase().startsWith(cleanVal));
-                        if (found && found.toLowerCase() !== cleanVal) {
-                            return { requiresConfirmation: true, proposedValue: found };
-                        }
+                        if (found && found.toLowerCase() !== cleanVal) return { requiresConfirmation: true, proposedValue: found };
                     }
                     return { value: val.trim().toUpperCase() };
                 }
@@ -310,6 +307,8 @@
         let currentStepIndex = 0;
         const userData = {}; 
         let confirmingState = null;
+        let answeredQuestionsCount = 0; // Variables para progreso
+        const totalQuestions = chatFlow.filter(s => s.type === 'question').length; 
 
         const chatContainer = document.getElementById('chat-container');
         const chatForm = document.getElementById('chat-form');
@@ -335,6 +334,25 @@
             } else { banner.style.display = 'none'; }
         }
 
+        // --- ACTUALIZAR BARRA DE PROGRESO ---
+        function updateProgress() {
+            const progressWrapper = document.getElementById('progress-wrapper');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            
+            // Mostrar la barra si estaba oculta
+            progressWrapper.classList.remove('hidden');
+            
+            // Calcular visualización: Si estamos en una pregunta, mostramos "Pregunta Actual de Total"
+            let displayCount = answeredQuestionsCount + 1;
+            if (displayCount > totalQuestions) displayCount = totalQuestions;
+            
+            const percentage = Math.round((displayCount / totalQuestions) * 100);
+            
+            progressText.innerText = `${displayCount} de ${totalQuestions} (${percentage}%)`;
+            progressBar.style.width = `${percentage}%`;
+        }
+
         // --- MOTOR DEL CHAT ---
         async function processNextStep() {
             if (currentStepIndex >= chatFlow.length) return finishChat();
@@ -345,7 +363,7 @@
             let textToDisplay = step.text;
             if (userData.nombres) textToDisplay = textToDisplay.replaceAll('{nombres}', userData.nombres);
             if (userData.moneda) textToDisplay = textToDisplay.replaceAll('{moneda}', userData.moneda);
-            else textToDisplay = textToDisplay.replaceAll('{moneda}', 'tu moneda local'); // Fallback
+            else textToDisplay = textToDisplay.replaceAll('{moneda}', 'tu moneda local'); 
 
             const typingId = showTypingIndicator();
             scrollToBottom();
@@ -359,6 +377,7 @@
                 currentStepIndex++;
                 processNextStep();
             } else {
+                updateProgress(); // Actualizamos la barra al presentar una pregunta
                 enableInput(step.inputType, step.options);
             }
         }
@@ -370,9 +389,8 @@
                 optionsContainer.classList.remove('hidden');
                 optionsContainer.classList.add('flex');
                 
-                optionsContainer.innerHTML = ''; // Limpiar anteriores
+                optionsContainer.innerHTML = ''; 
                 
-                // Inyectar botones dinámicamente
                 options.forEach(opt => {
                     const btn = document.createElement('button');
                     btn.className = 'bg-slate-100 text-slate-700 hover:bg-emerald-100 hover:text-emerald-800 border border-slate-300 rounded-full py-2 px-5 font-semibold transition-colors text-sm';
@@ -414,7 +432,6 @@
         });
 
         function handleUserResponse(actualValue, displayText) {
-            // 1. Verificar si estamos esperando una confirmación de autocorrector
             if (confirmingState) {
                 if (actualValue === 'si') {
                     userData[confirmingState.field] = confirmingState.proposedValue;
@@ -422,6 +439,7 @@
                         userData.moneda = currencyMap[confirmingState.proposedValue] || 'USD';
                     }
                     addUserMessage(displayText);
+                    answeredQuestionsCount++; // Respuesta confirmada y guardada
                     confirmingState = null;
                     disableInput();
                     currentStepIndex++;
@@ -437,7 +455,6 @@
 
             const currentStep = chatFlow[currentStepIndex];
 
-            // 2. Validaciones estrictas
             if (currentStep.validate) {
                 const error = currentStep.validate(actualValue);
                 if (error) {
@@ -449,7 +466,6 @@
                 }
             }
 
-            // 3. Procesamiento de Autocorrector (Países y Ciudades)
             if (currentStep.process) {
                 const result = currentStep.process(actualValue);
                 if (result.requiresConfirmation) {
@@ -465,33 +481,30 @@
                 }
             }
 
-            // 4. Guardado normal
             userData[currentStep.field] = actualValue;
             
             if (currentStep.field === 'pais' && !userData.moneda) {
                  userData.moneda = currencyMap[actualValue] || 'USD';
             }
-
             if (currentStep.field === 'apellidos') {
                 userData.nombre = `${userData.nombres} ${userData.apellidos}`; 
             }
 
-            // Mostrar el mensaje en la UI
             addUserMessage(displayText);
             disableInput();
 
-            // 5. Verificar Política de Datos (Botón de pánico)
             if (currentStep.field === 'acepta_politica' && actualValue === 'no') {
                 setTimeout(() => {
                     addBotMessage("Entiendo perfectamente. Tus datos registrados hasta este momento han sido borrados de la memoria y no serán almacenados. ¡Hasta pronto!");
-                    // Limpiamos los datos de la memoria RAM
                     for (let key in userData) delete userData[key];
                     scrollToBottom();
                 }, 800);
-                return; // Cortamos el flujo aquí, el bot "muere".
+                return; 
             }
 
-            // Avanzar al siguiente paso
+            // Guardado exitoso, incrementamos el contador de progreso
+            answeredQuestionsCount++;
+            
             currentStepIndex++;
             processNextStep();
         }
