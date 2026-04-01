@@ -58,6 +58,18 @@
 </head>
 <body class="bg-white text-slate-800 font-sans h-screen overflow-hidden flex flex-col">
 
+    <!-- Banner de Cookies -->
+    <div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-slate-900 text-white p-4 z-[60] flex flex-col md:flex-row justify-between items-center shadow-2xl transition-transform duration-500 translate-y-0">
+        <div class="text-sm mb-4 md:mb-0 max-w-4xl px-4">
+            Utilizamos cookies para garantizar que tengas la mejor experiencia, procesar tu diagnóstico y enviarte tus resultados. Al continuar usando esta plataforma, aceptas nuestra <a href="politica_datos.html" class="text-emerald-400 font-semibold hover:text-emerald-300 underline">Política de Tratamiento de Datos</a>.
+        </div>
+        <div class="px-4">
+            <button id="accept-cookies-btn" class="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-2 rounded-full font-bold text-sm transition-colors whitespace-nowrap">
+                Entendido
+            </button>
+        </div>
+    </div>
+
     <!-- Header Móvil (solo visible en pantallas pequeñas) -->
     <div class="md:hidden bg-slate-900 text-white p-4 flex items-center justify-between shadow-md z-10">
         <h1 class="font-bold text-lg text-emerald-400">Inmunidad Patrimonial</h1>
@@ -72,7 +84,8 @@
             <div class="absolute w-[400px] h-[400px] bg-emerald-100 rounded-full blur-3xl opacity-50 -z-0"></div>
             
             <div class="z-10 text-center flex flex-col items-center p-8">
-                <img src="kelly.png" alt="Kelly-Finanzas" class="w-64 h-64 object-cover rounded-full shadow-2xl border-4 border-white mb-8 transition-transform duration-500 hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Kelly+Finanzas&background=0D8BCA&color=fff&size=256'">
+                <!-- Imagen actualizada: Sin círculo, libre y con sombra suave -->
+                <img src="kelly.png" alt="Kelly-Finanzas" class="w-4/5 max-w-sm object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.15)] mb-8 transition-transform duration-500 hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Kelly+Finanzas&background=0D8BCA&color=fff&size=256'">
                 
                 <h1 class="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
                     Tu <span class="text-emerald-600">Inmunidad</span> Patrimonial
@@ -80,6 +93,13 @@
                 <p class="text-lg text-slate-600 max-w-md">
                     Descubre cuánto tiempo puedes sostener tu estándar de vida sin depender de tu próximo ingreso.
                 </p>
+            </div>
+
+            <!-- Footer con derechos, política y acceso oculto -->
+            <div class="absolute bottom-6 w-full text-center flex flex-col items-center z-20">
+                <p class="text-xs text-slate-400">&copy; 2026 Todos los derechos reservados.</p>
+                <a href="politica_datos.html" class="text-xs text-slate-400 hover:text-emerald-600 transition-colors mt-1">Política de Tratamiento de Datos</a>
+                <a href="login.html" class="text-[10px] text-slate-200 hover:text-emerald-500 transition-colors mt-2 opacity-50 hover:opacity-100 cursor-default hover:cursor-pointer">acceso kelly</a>
             </div>
         </div>
 
@@ -267,10 +287,29 @@
 
         // --- FUNCIONES PRINCIPALES ---
 
-        // Iniciar el flujo
+        // Iniciar el flujo y verificar cookies
         window.onload = () => {
+            checkCookies();
             processNextStep();
         };
+
+        // Lógica del Banner de Cookies
+        function checkCookies() {
+            const banner = document.getElementById('cookie-banner');
+            const btn = document.getElementById('accept-cookies-btn');
+            
+            if (!localStorage.getItem('cookies_accepted')) {
+                // Si no ha aceptado, se muestra el banner
+                btn.addEventListener('click', () => {
+                    localStorage.setItem('cookies_accepted', 'true');
+                    banner.classList.add('translate-y-full'); // Animación para esconder
+                    setTimeout(() => banner.style.display = 'none', 500);
+                });
+            } else {
+                // Si ya aceptó, lo ocultamos inmediatamente
+                banner.style.display = 'none';
+            }
+        }
 
         async function processNextStep() {
             if (currentStepIndex >= chatFlow.length) {
